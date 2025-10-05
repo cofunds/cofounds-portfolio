@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     default: "Cofounds Portfolio",
     template: "%s | Portfolio",
   },
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
   description: "Cofounds portfolio showcasing skills, projects, and experience",
   openGraph: {
     title: "Cofounds Portfolio",
