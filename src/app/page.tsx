@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import PortfolioContentWrapper from "@/components/portfolio-content-wrapper";
 
 export default async function Page() {
-  const headersList = headers();
+  const headersList = await headers();
   const { username, hasValidSubdomain } = extractUsername(headersList);
 
   // Show no subdomain page if subdomain validation fails

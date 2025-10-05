@@ -47,9 +47,11 @@ export function PortfolioContent({ portfolioData }: { portfolioData: PortfolioDa
           <h2 className="text-xl font-bold">About</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
-            {portfolioData.summary}
-          </Markdown>
+          <div className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+            <Markdown>
+              {portfolioData.summary}
+            </Markdown>
+          </div>
         </BlurFade>
       </section>
       {portfolioData.work && portfolioData.work.length > 0 && (
