@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface ExpandableDockProps {
-  headerContent: ReactNode;
+  headerContent: (toggleExpand: () => void, isExpanded: boolean) => ReactNode;
   children: ReactNode;
   className?: string;
 }
@@ -42,6 +42,14 @@ const ExpandableDock = ({
 
   const isCollapsed = animationStage === "collapsed";
   const isExpanded = animationStage === "fullyExpanded";
+
+  const toggleExpand = () => {
+    if (isCollapsed) {
+      handleExpand();
+    } else {
+      handleCollapse();
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -92,10 +100,9 @@ const ExpandableDock = ({
         )}
       >
         <div
-          onClick={isCollapsed ? handleExpand : handleCollapse}
-          className="flex items-center gap-4 px-4 sm:px-6 py-4 w-full h-[68px] whitespace-nowrap cursor-pointer border-t border-border flex-shrink-0"
+          className="flex items-center gap-4 px-4 sm:px-6 py-4 w-full h-[68px] whitespace-nowrap border-t border-border flex-shrink-0"
         >
-          {headerContent}
+          {headerContent(toggleExpand, isExpanded)}
         </div>
         <motion.div
           animate={{

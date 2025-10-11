@@ -138,9 +138,12 @@ export default function ResponsiveNavbar({ portfolioData = DATA }: NavbarProps) 
   const MobileDock = () => (
     <div className="md:hidden">
       <ExpandableDock
-        headerContent={
+        headerContent={(toggleExpand, isExpanded) => (
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-3">
+            <div 
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={toggleExpand}
+            >
               <MenuIcon className="size-5" />
               <span className="text-sm font-medium">Navigation</span>
             </div>
@@ -160,7 +163,7 @@ export default function ResponsiveNavbar({ portfolioData = DATA }: NavbarProps) 
               )} />
             </div>
           </div>
-        }
+        )}
         className="max-w-md"
       >
         <div className="space-y-4">
