@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PortfolioData } from "./portfolio-data-provider";
+import type { PortfolioData } from "./portfolio-data-provider";
 
 interface TemplateRendererProps {
   portfolioData: PortfolioData;
@@ -13,7 +13,9 @@ function PortfolioLoading() {
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col items-center gap-4">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-muted-foreground animate-pulse">Loading portfolio...</p>
+        <p className="text-muted-foreground animate-pulse">
+          Loading portfolio...
+        </p>
       </div>
     </div>
   );
@@ -23,7 +25,10 @@ function PortfolioLoading() {
  * Client-side template renderer that waits for hydration before rendering
  * This prevents the flash of unstyled content and double animation issues
  */
-export function TemplateRenderer({ portfolioData, templateComponent: TemplateComponent }: TemplateRendererProps) {
+export function TemplateRenderer({
+  portfolioData,
+  templateComponent: TemplateComponent,
+}: TemplateRendererProps) {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {

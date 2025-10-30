@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 interface HeaderProps {
@@ -14,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({
   userName = "Portfolio",
   projectsCount = 0,
   experienceCount = 0,
-  blogsCount = 0
+  blogsCount = 0,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
@@ -23,16 +24,21 @@ const Header: React.FC<HeaderProps> = ({
   const menuItems = [
     { label: "Home", href: "#hero", id: "hero", show: true },
     { label: "About", href: "#about", id: "about", show: true },
-    { label: "Projects", href: "#projects", id: "projects", show: projectsCount > 0 },
+    {
+      label: "Projects",
+      href: "#projects",
+      id: "projects",
+      show: projectsCount > 0,
+    },
     { label: "Work", href: "#work", id: "work", show: experienceCount > 0 },
     { label: "Blog", href: "#blog", id: "blog", show: blogsCount > 0 },
     { label: "Contact", href: "#contact", id: "contact", show: true },
-  ].filter(item => item.show);
+  ].filter((item) => item.show);
 
   // Scroll spy effect
   useEffect(() => {
     const handleScroll = () => {
-      const sections = menuItems.map(item => item.id);
+      const sections = menuItems.map((item) => item.id);
       let currentSection = "hero";
 
       for (const sectionId of sections) {
@@ -48,23 +54,26 @@ const Header: React.FC<HeaderProps> = ({
       setActiveSection(currentSection);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll(); // Call once on mount
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [menuItems]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     e.preventDefault();
     setMenuOpen(false);
-    
-    const targetId = href.replace('#', '');
+
+    const targetId = href.replace("#", "");
     const element = document.getElementById(targetId);
-    
+
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
@@ -123,13 +132,15 @@ const Header: React.FC<HeaderProps> = ({
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`font-normal text-sm sm:text-base transition-colors duration-200 hover:text-foreground cursor-pointer ${
-                  activeSection === item.id ? "text-foreground" : "text-muted-foreground"
+                  activeSection === item.id
+                    ? "text-foreground"
+                    : "text-muted-foreground"
                 }`}
               >
                 {item.label}
               </a>
             ))}
-            <AnimatedThemeToggler/>
+            <AnimatedThemeToggler />
           </div>
         </nav>
       </div>

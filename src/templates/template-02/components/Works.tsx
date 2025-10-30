@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import { FaGlobe, FaBuilding } from "react-icons/fa";
@@ -18,21 +18,22 @@ interface WorksProps {
 
 export default function Works({ experience }: WorksProps) {
   const [isWorkModalOpen, setWorkModalOpen] = useState(false);
-  const [selectedWork, setSelectedWork] = useState<NonNullable<WorksProps['experience']>[0] | null>(null);
+  const [selectedWork, setSelectedWork] = useState<
+    NonNullable<WorksProps["experience"]>[0] | null
+  >(null);
 
   const availableExperience = experience || [];
 
   if (availableExperience.length === 0) return null;
 
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     return `${year}/${month}`;
   };
 
-  const handleWorkClick = (work: NonNullable<WorksProps['experience']>[0]) => {
+  const handleWorkClick = (work: NonNullable<WorksProps["experience"]>[0]) => {
     setSelectedWork(work);
     setWorkModalOpen(true);
   };
@@ -41,9 +42,7 @@ export default function Works({ experience }: WorksProps) {
     <>
       <AnimatedSection className="mt-20 sm:mt-24 lg:mt-32">
         <div className="text-center mb-12 sm:mb-16">
-          <FaGlobe
-            className="text-foreground/40 w-15 h-15 mx-auto mb-4"
-          />
+          <FaGlobe className="text-foreground/40 w-15 h-15 mx-auto mb-4" />
           <p className=" font-medium text-base text-foreground/40 uppercase tracking-wider mb-2">
             HISTORY SECTION
           </p>
@@ -54,7 +53,6 @@ export default function Works({ experience }: WorksProps) {
         <div className="bg-secondary rounded-[20px] p-8 sm:p-10">
           <div className="space-y-6">
             {availableExperience.map((work, index) => {
-
               const startFormatted = formatDate(work.startedAt);
               const period = work.endAt
                 ? `${startFormatted} -> ${formatDate(work.endAt)}`
@@ -66,7 +64,7 @@ export default function Works({ experience }: WorksProps) {
                   onClick={() => handleWorkClick(work)}
                   className="w-full text-left bg-background/20 relative overflow-hidden hover:bg-background/50 transition-all duration-500 ease-in-out rounded-[16px] p-6 sm:p-8"
                 >
-                  <div className="absolute w-full h-16 -top-20 left-0 bg-primary/10 blur-2xl"></div>
+                  <div className="absolute w-full h-16 -top-20 left-0 bg-primary/10 blur-2xl" />
                   <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-12">
                     <div className="lg:w-1/4">
                       <p className=" font-normal text-base text-foreground mb-2">
@@ -102,7 +100,6 @@ export default function Works({ experience }: WorksProps) {
         >
           <div className="max-h-112 overflow-y-auto rounded-lg bg-background p-6">
             <div className="space-y-6 text-foreground/80">
-
               {/* Company */}
               <div className="flex items-center gap-2 text-sm text-foreground/60">
                 <FaBuilding className="w-4 h-4" />
@@ -115,8 +112,8 @@ export default function Works({ experience }: WorksProps) {
                 <span>
                   {selectedWork.endAt
                     ? `${new Date(selectedWork.startedAt).toLocaleDateString()} → ${new Date(
-                      selectedWork.endAt
-                    ).toLocaleDateString()}`
+                        selectedWork.endAt
+                      ).toLocaleDateString()}`
                     : `Since ${new Date(selectedWork.startedAt).toLocaleDateString()}`}
                 </span>
               </div>

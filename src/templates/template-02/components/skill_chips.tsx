@@ -8,11 +8,11 @@ export interface Skill {
 
 export const skillLevelToValue = (level: string | null): number => {
   switch (level?.toLowerCase()) {
-    case 'advanced':
+    case "advanced":
       return 90;
-    case 'intermediate':
+    case "intermediate":
       return 60;
-    case 'beginner':
+    case "beginner":
       return 30;
     default:
       return 20;
@@ -21,14 +21,14 @@ export const skillLevelToValue = (level: string | null): number => {
 
 export const getSkillColor = (level: string | null) => {
   switch (level?.toLowerCase()) {
-    case 'advanced':
-      return 'var(--chart-1)';
-    case 'intermediate':
-      return 'var(--chart-2)';
-    case 'beginner':
-      return 'var(--chart-3)';
+    case "advanced":
+      return "var(--chart-1)";
+    case "intermediate":
+      return "var(--chart-2)";
+    case "beginner":
+      return "var(--chart-3)";
     default:
-      return 'var(--muted-foreground)';
+      return "var(--muted-foreground)";
   }
 };
 
@@ -59,11 +59,17 @@ export function CustomTooltip({ active, payload }: CustomTooltipProps) {
   return null;
 }
 
-
-export function renderTopSkills(skills: Skill[], level = 'advanced', limit = 3) {
+export function renderTopSkills(
+  skills: Skill[],
+  level = "advanced",
+  limit = 3
+) {
   const filteredSkills = skills
-    .filter(skill => skill.skillLevel?.toLowerCase() === level.toLowerCase())
-    .sort((a, b) => skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel))
+    .filter((skill) => skill.skillLevel?.toLowerCase() === level.toLowerCase())
+    .sort(
+      (a, b) =>
+        skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel)
+    )
     .slice(0, limit);
 
   if (filteredSkills.length === 0) return null;

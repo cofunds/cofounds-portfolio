@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useMemo } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
 
@@ -39,7 +39,10 @@ const BlurFadeText = ({
   if (!hydrated) {
     return (
       <div className="flex">
-        <span className={cn("inline-block", className)} suppressHydrationWarning>
+        <span
+          className={cn("inline-block", className)}
+          suppressHydrationWarning
+        >
           {text}
         </span>
       </div>
@@ -57,7 +60,7 @@ const BlurFadeText = ({
               animate="visible"
               exit="hidden"
               variants={combinedVariants}
-              transition={{                
+              transition={{
                 delay: delay + i * characterDelay,
                 ease: "easeOut",
               }}
@@ -80,7 +83,7 @@ const BlurFadeText = ({
           animate="visible"
           exit="hidden"
           variants={combinedVariants}
-          transition={{            
+          transition={{
             delay,
             ease: "easeOut",
           }}

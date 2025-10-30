@@ -1,6 +1,7 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, ErrorInfo, Component } from 'react';
+import type React from "react";
+import { createContext, useContext, type ErrorInfo, Component } from "react";
 
 // ============ 🔹 Atomic Interfaces 🔹 ============
 
@@ -121,56 +122,59 @@ export interface PortfolioData {
   initials: string;
   email: string;
   phone: string;
-  
+
   // Profile Images
   avatarUrl: string;
   profileImage: string;
   headerImage: string;
-  
+
   // Descriptions
   description: string;
   headerText: string;
   summary: string;
-  
+
   // Location (for template-01)
   url: string;
   location: string;
   locationLink: string;
-  
+
   // Navigation
   navbar: any[];
-  
+
   // Skills - Keep both formats for flexibility
   skills: string[]; // Simple string array for template-01
   skillset: UserSkill[]; // Full skill objects with levels for template-02
-  
+
   // Links/Social
   links: Link[]; // Raw links array for template-02
   contact: {
     email?: string;
-    social: Record<string, {
-      name: string;
-      url: string;
-      navbar: boolean;
-    }>;
+    social: Record<
+      string,
+      {
+        name: string;
+        url: string;
+        navbar: boolean;
+      }
+    >;
   };
-  
+
   // Work Experience - Keep both formats
   work: TransformedWork[]; // Transformed for template-01
   experience: Experience[]; // Raw for template-02
-  
+
   // Education
   education: TransformedEducation[]; // Transformed for template-01
   educationRaw: Education[]; // Raw for template-02
-  
+
   // Projects - Keep both formats
   projects: TransformedProject[]; // Transformed for template-01
   projectsRaw: Project[]; // Raw for template-02
-  
+
   // Certificates/Hackathons
   hackathons: TransformedCertificate[]; // Transformed for template-01
   certificates: Certificate[]; // Raw for template-02
-  
+
   // Template Selection
   templateId?: string; // Template ID for multi-template support
 }
@@ -228,12 +232,16 @@ interface PortfolioDataContextType {
   error: string | null;
 }
 
-const PortfolioDataContext = createContext<PortfolioDataContextType | undefined>(undefined);
+const PortfolioDataContext = createContext<
+  PortfolioDataContextType | undefined
+>(undefined);
 
 export const usePortfolioData = () => {
   const context = useContext(PortfolioDataContext);
   if (context === undefined) {
-    throw new Error('usePortfolioData must be used within a PortfolioDataProvider');
+    throw new Error(
+      "usePortfolioData must be used within a PortfolioDataProvider"
+    );
   }
   return context;
 };
@@ -255,7 +263,10 @@ class PortfolioErrorBoundary extends Component<
   { children: React.ReactNode; fallback?: React.ReactNode },
   ErrorBoundaryState
 > {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+  constructor(props: {
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+  }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -265,18 +276,25 @@ class PortfolioErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Portfolio Error Boundary caught an error:', error, errorInfo);
+    console.error(
+      "Portfolio Error Boundary caught an error:",
+      error,
+      errorInfo
+    );
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-          <h2 className="text-lg font-semibold mb-2">Something went wrong</h2>
-          <p className="text-muted-foreground">
-            There was an error displaying this section. Please refresh the page.
-          </p>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+            <h2 className="text-lg font-semibold mb-2">Something went wrong</h2>
+            <p className="text-muted-foreground">
+              There was an error displaying this section. Please refresh the
+              page.
+            </p>
+          </div>
+        )
       );
     }
 
@@ -289,12 +307,10 @@ export const PortfolioDataProvider: React.FC<PortfolioDataProviderProps> = ({
   portfolioData,
   isLoading,
   error,
-}) => {
-  return (
-    <PortfolioErrorBoundary>
-      <PortfolioDataContext.Provider value={{ portfolioData, isLoading, error }}>
-        {children}
-      </PortfolioDataContext.Provider>
-    </PortfolioErrorBoundary>
-  );
-};
+}) => (
+  <PortfolioErrorBoundary>
+    <PortfolioDataContext.Provider value={{ portfolioData, isLoading, error }}>
+      {children}
+    </PortfolioDataContext.Provider>
+  </PortfolioErrorBoundary>
+);

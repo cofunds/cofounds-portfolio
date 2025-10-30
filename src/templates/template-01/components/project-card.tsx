@@ -69,22 +69,19 @@ export function ProjectCard({
             className="h-40 w-full overflow-hidden object-cover object-top"
           />
         )}
-        {!video && !image && (
-          <div className="h-40 w-full bg-linear-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center">
-          </div>
+        {!(video || image) && (
+          <div className="h-40 w-full bg-linear-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center"></div>
         )}
       </Link>
       <CardHeader className="px-2">
         <div className="space-y-1">
           <CardTitle className="mt-1 text-base">{title}</CardTitle>
           <time className="font-sans text-xs">{dates}</time>
-                    <div className="hidden font-sans text-xs underline print:visible">
+          <div className="hidden font-sans text-xs underline print:visible">
             {link?.replace("https://", "").replace("www.", "").replace("/", "")}
           </div>
           <div className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
-            <Markdown>
-              {description}
-            </Markdown>
+            <Markdown>{description}</Markdown>
           </div>
         </div>
       </CardHeader>

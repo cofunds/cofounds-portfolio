@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   RadarChart,
   PolarGrid,
@@ -12,9 +12,14 @@ import {
   Bar,
   XAxis,
   CartesianGrid,
-  Cell
-} from 'recharts';
-import { CustomTooltip, getSkillColor, type Skill, skillLevelToValue } from './skill_chips';
+  Cell,
+} from "recharts";
+import {
+  CustomTooltip,
+  getSkillColor,
+  type Skill,
+  skillLevelToValue,
+} from "./skill_chips";
 
 interface SkillsSectionProps {
   skills: Skill[];
@@ -27,23 +32,29 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
     setMounted(true);
   }, []);
 
-  if (!mounted || !skills || skills.length === 0) return null;
+  if (!(mounted && skills) || skills.length === 0) return null;
 
   const radarData = skills
-    .sort((a, b) => skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel))
+    .sort(
+      (a, b) =>
+        skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel)
+    )
     .slice(0, 8)
-    .map(skill => ({
+    .map((skill) => ({
       name: skill.skill?.name ?? skill.name,
       value: skillLevelToValue(skill.skillLevel),
-      level: skill.skillLevel
+      level: skill.skillLevel,
     }));
 
   const barData = skills
-    .sort((a, b) => skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel))
-    .map(skill => ({
+    .sort(
+      (a, b) =>
+        skillLevelToValue(b.skillLevel) - skillLevelToValue(a.skillLevel)
+    )
+    .map((skill) => ({
       name: skill.skill?.name ?? skill.name,
       value: skillLevelToValue(skill.skillLevel),
-      level: skill.skillLevel
+      level: skill.skillLevel,
     }));
 
   return (
@@ -62,8 +73,8 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                 <PolarAngleAxis
                   dataKey="name"
                   tick={{
-                    fill: 'var(--muted-foreground)',
-                    fontSize: 9
+                    fill: "var(--muted-foreground)",
+                    fontSize: 9,
                   }}
                   tickLine={false}
                 />
@@ -95,8 +106,8 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                 <XAxis
                   dataKey="name"
                   tick={{
-                    fill: 'var(--muted-foreground)',
-                    fontSize: 9
+                    fill: "var(--muted-foreground)",
+                    fontSize: 9,
                   }}
                   angle={90}
                   textAnchor="start"
@@ -104,12 +115,15 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                   tickLine={false}
                 />
                 <Tooltip
-                  cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                  cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
                   content={<CustomTooltip />}
                 />
                 <Bar dataKey="value" barSize={15} radius={[4, 4, 0, 0]}>
                   {barData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={getSkillColor(entry.level)} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={getSkillColor(entry.level)}
+                    />
                   ))}
                 </Bar>
               </BarChart>

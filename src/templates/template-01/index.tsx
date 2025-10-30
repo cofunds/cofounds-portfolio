@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { HackathonCard } from "./components/hackathon-card";
 import BlurFade from "@/components/magicui/blur-fade";
@@ -7,7 +7,7 @@ import { ProjectCard } from "./components/project-card";
 import { ResumeCard } from "./components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { PortfolioData } from "@/components/portfolio-data-provider";
+import type { PortfolioData } from "@/components/portfolio-data-provider";
 import { getLinkIcon } from "./components/portfolio-icons";
 import ResponsiveNavbar from "./components/responsive-navbar";
 import Link from "next/link";
@@ -18,17 +18,17 @@ import { useEffect } from "react";
 const BLUR_FADE_DELAY = 0.04;
 
 const capturePostHogEvent = (username: string) => {
-  posthog.capture('portfolio_opened', {
+  posthog.capture("portfolio_opened", {
     user: username,
-  })
-}
+  });
+};
 
 /**
  * Template-01: Classic Portfolio
- * 
+ *
  * A clean and professional single-page portfolio template featuring
  * smooth blur-fade animations, responsive design, and comprehensive sections.
- * 
+ *
  * Features:
  * - Animated hero section with avatar
  * - About section with markdown support
@@ -38,19 +38,22 @@ const capturePostHogEvent = (username: string) => {
  * - Project gallery with images/videos
  * - Certifications & achievements
  * - Contact section
- * 
+ *
  * @param portfolioData - The user's portfolio data
  */
-export default function Template01({ portfolioData }: { portfolioData: PortfolioData }) {
-
+export default function Template01({
+  portfolioData,
+}: {
+  portfolioData: PortfolioData;
+}) {
   useEffect(() => {
     capturePostHogEvent(portfolioData.username);
-  },[portfolioData.username]);
+  }, [portfolioData.username]);
 
   return (
     <main className="flex flex-col min-h-dvh space-y-6 md:space-y-8 my-10 px-4 md:pt-8 pb-20 md:pb-10 max-w-2xl mx-auto">
       <ResponsiveNavbar portfolioData={portfolioData} />
-      
+
       {/* Hero Section */}
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-6 md:space-y-8">
@@ -70,7 +73,10 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-24 sm:size-28 border">
-                <AvatarImage alt={portfolioData.name} src={portfolioData.avatarUrl} />
+                <AvatarImage
+                  alt={portfolioData.name}
+                  src={portfolioData.avatarUrl}
+                />
                 <AvatarFallback>{portfolioData.initials}</AvatarFallback>
               </Avatar>
             </BlurFade>
@@ -85,9 +91,7 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <div className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
-            <Markdown>
-              {portfolioData.summary}
-            </Markdown>
+            <Markdown>{portfolioData.summary}</Markdown>
           </div>
         </BlurFade>
       </section>
@@ -204,7 +208,7 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
                     video={project.video}
                     links={project.links.map((link: any) => ({
                       ...link,
-                      icon: getLinkIcon(link.linkTitle)
+                      icon: getLinkIcon(link.linkTitle),
                     }))}
                   />
                 </BlurFade>
@@ -228,9 +232,11 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
                     Certifications & Achievements
                   </h2>
                   <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    I believe in continuous learning and professional development. Here are some of the{" "}
-                    {portfolioData.hackathons.length} certifications and achievements I&apos;ve earned
-                    to enhance my skills and stay current with industry trends.
+                    I believe in continuous learning and professional
+                    development. Here are some of the{" "}
+                    {portfolioData.hackathons.length} certifications and
+                    achievements I&apos;ve earned to enhance my skills and stay
+                    current with industry trends.
                   </p>
                 </div>
               </div>
@@ -250,7 +256,7 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
                       image={project.image}
                       links={project.links.map((link: any) => ({
                         ...link,
-                        icon: getLinkIcon(link.linkTitle)
+                        icon: getLinkIcon(link.linkTitle),
                       }))}
                     />
                   </BlurFade>
@@ -275,7 +281,11 @@ export default function Template01({ portfolioData }: { portfolioData: Portfolio
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Want to chat? Just shoot me a mail{" "}
                 <Link
-                  href={portfolioData.contact.email ? `mailto:${portfolioData.contact.email}` : '#'}
+                  href={
+                    portfolioData.contact.email
+                      ? `mailto:${portfolioData.contact.email}`
+                      : "#"
+                  }
                   className="text-blue-500 hover:underline"
                 >
                   with a direct question

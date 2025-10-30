@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback, forwardRef } from "react";
+import { useState, useEffect, useCallback, forwardRef } from "react";
 import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
@@ -13,46 +13,52 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
   ({ className }, ref) => {
     const [isDark, setIsDark] = useState(false);
     const [mounted, setMounted] = useState(false);
-    const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(null);
+    const [buttonElement, setButtonElement] =
+      useState<HTMLButtonElement | null>(null);
     const hydrated = useHydrated();
-    
+
     // Custom ref callback that handles both forwarded ref and internal state
-    const refCallback = useCallback((el: HTMLButtonElement | null) => {
-      setButtonElement(el);
-      if (typeof ref === 'function') {
-        ref(el);
-      } else if (ref && typeof ref === 'object') {
-        (ref as React.MutableRefObject<HTMLButtonElement | null>).current = el;
+    const refCallback = useCallback(
+      (el: HTMLButtonElement | null) => {
+        setButtonElement(el);
+        if (typeof ref === "function") {
+          ref(el);
+        } else if (ref && typeof ref === "object") {
+          (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
+            el;
+        }
+      },
+      [ref]
+    );
+
+    useEffect(() => {
+      setMounted(true);
+
+      const updateTheme = () => {
+        if (typeof document !== "undefined") {
+          setIsDark(document.documentElement.classList.contains("dark"));
+        }
+      };
+
+      updateTheme();
+
+      if (typeof document !== "undefined") {
+        const observer = new MutationObserver(updateTheme);
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+
+        return () => observer.disconnect();
       }
-    }, [ref]);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    const updateTheme = () => {
-      if (typeof document !== 'undefined') {
-        setIsDark(document.documentElement.classList.contains("dark"));
-      }
-    };
-
-    updateTheme();
-
-    if (typeof document !== 'undefined') {
-      const observer = new MutationObserver(updateTheme);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-
-      return () => observer.disconnect();
-    }
-  }, []);
+    }, []);
 
     const toggleTheme = useCallback(async () => {
-      if (!buttonElement || !mounted || typeof document === 'undefined') return;
+      if (!(buttonElement && mounted) || typeof document === "undefined")
+        return;
 
       // Check if browser supports view transitions
-      const supportsViewTransition = 'startViewTransition' in document;
+      const supportsViewTransition = "startViewTransition" in document;
 
       if (supportsViewTransition) {
         try {
@@ -71,7 +77,7 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
           const y = top + height / 2;
           const maxRadius = Math.hypot(
             Math.max(left, window.innerWidth - left),
-            Math.max(top, window.innerHeight - top),
+            Math.max(top, window.innerHeight - top)
           );
 
           document.documentElement.animate(
@@ -85,7 +91,7 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
               duration: 700,
               easing: "ease-in-out",
               pseudoElement: "::view-transition-new(root)",
-            },
+            }
           );
         } catch (error) {
           // Fallback for browsers that don't support view transitions
@@ -104,11 +110,11 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
     }, [isDark, mounted, buttonElement]);
 
     // Don't render until hydrated to prevent hydration mismatch
-    if (!hydrated || !mounted) {
+    if (!(hydrated && mounted)) {
       return (
-        <button 
+        <button
           ref={refCallback}
-          className={cn(className)} 
+          className={cn(className)}
           suppressHydrationWarning
         >
           <MoonIcon />
@@ -117,11 +123,7 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
     }
 
     return (
-      <button 
-        ref={refCallback}
-        onClick={toggleTheme} 
-        className={cn(className)}
-      >
+      <button ref={refCallback} onClick={toggleTheme} className={cn(className)}>
         {isDark ? <SunIcon /> : <MoonIcon />}
       </button>
     );

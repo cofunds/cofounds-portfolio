@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Link from "next/link";
@@ -19,13 +19,17 @@ interface ProjectsProps {
 
 export default function ProjectSection({ projects }: ProjectsProps) {
   const [isProjectModalOpen, setProjectModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<NonNullable<ProjectsProps['projects']>[number] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<
+    NonNullable<ProjectsProps["projects"]>[number] | null
+  >(null);
 
   const availableProjects = projects || [];
 
   if (availableProjects.length === 0) return null;
 
-  const handleProjectClick = (project: NonNullable<ProjectsProps['projects']>[number]) => {
+  const handleProjectClick = (
+    project: NonNullable<ProjectsProps["projects"]>[number]
+  ) => {
     setSelectedProject(project);
     setProjectModalOpen(true);
   };
@@ -34,9 +38,7 @@ export default function ProjectSection({ projects }: ProjectsProps) {
     <>
       <AnimatedSection className="mt-20 sm:mt-24 lg:mt-32">
         <div className="text-center mb-12 sm:mb-16">
-          <FaDatabase
-            className="text-foreground/40 w-15 h-15 mx-auto mb-4"
-          />
+          <FaDatabase className="text-foreground/40 w-15 h-15 mx-auto mb-4" />
           <p className="font-medium text-base text-foreground/40 uppercase tracking-wider mb-2">
             PROJECT SECTION
           </p>
@@ -86,7 +88,6 @@ export default function ProjectSection({ projects }: ProjectsProps) {
         >
           <div className="max-h-112 overflow-y-auto rounded-lg bg-background p-6">
             <div className="space-y-6 text-foreground/80">
-
               {/* Metadata Section */}
               <div className="flex flex-col gap-3 text-sm text-foreground/60">
                 {/* Project Link */}
@@ -108,7 +109,10 @@ export default function ProjectSection({ projects }: ProjectsProps) {
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
                       <span>
-                        Started: {new Date(selectedProject.startedAt).toLocaleDateString()}
+                        Started:{" "}
+                        {new Date(
+                          selectedProject.startedAt
+                        ).toLocaleDateString()}
                       </span>
                     </div>
                   )}
@@ -127,7 +131,9 @@ export default function ProjectSection({ projects }: ProjectsProps) {
               {/* Description */}
               <div
                 className="prose prose-sm max-w-none text-foreground/90 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: selectedProject.description }}
+                dangerouslySetInnerHTML={{
+                  __html: selectedProject.description,
+                }}
               />
             </div>
           </div>

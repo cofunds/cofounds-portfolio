@@ -11,7 +11,7 @@ const portfolioQuotes = [
   "Design is not just what it looks like - design is how it works.",
   "A portfolio is a conversation starter, not a conversation ender.",
   "Show the journey, not just the destination.",
-  "The best portfolios tell stories that resonate with real people."
+  "The best portfolios tell stories that resonate with real people.",
 ];
 
 export const LoadingPortfolio = () => {
@@ -27,7 +27,7 @@ export const LoadingPortfolio = () => {
   return (
     <main className="flex flex-col min-h-dvh items-center justify-center space-y-8">
       <div className="text-center space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto" />
         <p className="text-lg text-muted-foreground max-w-md">
           {portfolioQuotes[currentQuote]}
         </p>
@@ -43,10 +43,13 @@ export const ErrorPortfolio = ({ username }: { username: string }) => (
       <p className="text-muted-foreground">
         Error fetching portfolio details please check the username: {username}
       </p>
-      {!username || username === 'dev123' ? (
+      {!username || username === "dev123" ? (
         <p className="text-muted-foreground">
           Let&apos;s get you a cool portfolio. Visit{" "}
-          <Link href="https://www.cofounds.in" className="text-blue-500 hover:underline">
+          <Link
+            href="https://www.cofounds.in"
+            className="text-blue-500 hover:underline"
+          >
             www.cofounds.in
           </Link>
         </p>
@@ -60,7 +63,10 @@ export const NoSubdomainPortfolio = () => (
     <div className="text-center space-y-4">
       <p className="text-muted-foreground">
         Let&apos;s get you a cool portfolio. Visit{" "}
-        <Link href="https://www.cofounds.in" className="text-blue-500 hover:underline">
+        <Link
+          href="https://www.cofounds.in"
+          className="text-blue-500 hover:underline"
+        >
           www.cofounds.in
         </Link>
       </p>

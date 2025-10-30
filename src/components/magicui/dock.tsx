@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import React, { PropsWithChildren, useRef } from "react";
+import React, { type PropsWithChildren, useRef } from "react";
 
 export interface DockProps extends VariantProps<typeof dockVariants> {
   className?: string;
@@ -30,10 +30,10 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     },
     ref
   ) => {
-    const mousex = useMotionValue(Infinity);
+    const mousex = useMotionValue(Number.POSITIVE_INFINITY);
 
-    const renderChildren = () => {
-      return React.Children.map(children, (child: any) => {
+    const renderChildren = () =>
+      React.Children.map(children, (child: any) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
             mousex,
@@ -43,13 +43,12 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
         }
         return child;
       });
-    };
 
     return (
       <motion.div
         ref={ref}
         onMouseMove={(e) => mousex.set(e.pageX)}
-        onMouseLeave={() => mousex.set(Infinity)}
+        onMouseLeave={() => mousex.set(Number.POSITIVE_INFINITY)}
         {...props}
         className={cn(dockVariants({ className }))}
       >
@@ -87,13 +86,13 @@ const DockIcon = ({
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthSync = useTransform(
+  const widthSync = useTransform(
     distanceCalc,
     [-distance, 0, distance],
     [40, magnification, 40]
   );
 
-  let width = useSpring(widthSync, {
+  const width = useSpring(widthSync, {
     mass: 0.1,
     stiffness: 150,
     damping: 12,

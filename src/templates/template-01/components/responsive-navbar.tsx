@@ -10,9 +10,15 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { 
-  FaInstagram, FaLinkedin, FaGithub, FaBehance, FaDribbble, 
-  FaPinterest, FaTelegramPlane, FaYoutube 
+import {
+  FaInstagram,
+  FaLinkedin,
+  FaGithub,
+  FaBehance,
+  FaDribbble,
+  FaPinterest,
+  FaTelegramPlane,
+  FaYoutube,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { HomeIcon, MenuIcon } from "lucide-react";
@@ -34,13 +40,14 @@ interface NavbarProps {
 }
 
 export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
-  const socialLinks = Object.entries(portfolioData.contact.social || {})
-    .filter(([_, social]: [string, any]) => social?.navbar && social?.url);
+  const socialLinks = Object.entries(portfolioData.contact.social || {}).filter(
+    ([_, social]: [string, any]) => social?.navbar && social?.url
+  );
 
   // Desktop Dock Component
   const DesktopDock = () => (
     <div className="hidden md:flex pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 origin-bottom h-full max-h-14">
-      <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
+      <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background" />
       <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-1 bg-background [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]">
         {/* Home icon */}
         <DockIcon>
@@ -61,36 +68,38 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
             </TooltipContent>
           </Tooltip>
         </DockIcon>
-        
+
         {/* Additional navbar items */}
-        {portfolioData.navbar && portfolioData.navbar.length > 0 && portfolioData.navbar.map((item: any) => (
-          <DockIcon key={item.href}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    buttonVariants({ variant: "ghost", size: "icon" }),
-                    "size-12"
-                  )}
-                >
-                  <item.icon className="size-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{item.label}</p>
-              </TooltipContent>
-            </Tooltip>
-          </DockIcon>
-        ))}
-        
+        {portfolioData.navbar &&
+          portfolioData.navbar.length > 0 &&
+          portfolioData.navbar.map((item: any) => (
+            <DockIcon key={item.href}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      buttonVariants({ variant: "ghost", size: "icon" }),
+                      "size-12"
+                    )}
+                  >
+                    <item.icon className="size-4" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{item.label}</p>
+                </TooltipContent>
+              </Tooltip>
+            </DockIcon>
+          ))}
+
         <Separator orientation="vertical" className="h-full" />
-        
+
         {/* Social links */}
         {socialLinks.map(([name, social]: [string, any]) => {
           const IconComponent = platformIcons[name.toLowerCase()];
           if (!IconComponent) return null;
-          
+
           return (
             <DockIcon key={name}>
               <Tooltip>
@@ -112,17 +121,19 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
             </DockIcon>
           );
         })}
-        
+
         <Separator orientation="vertical" className="h-full py-2" />
-        
+
         {/* Theme toggle */}
         <DockIcon>
           <Tooltip>
             <TooltipTrigger asChild>
-              <AnimatedThemeToggler className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "size-12"
-              )} />
+              <AnimatedThemeToggler
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" }),
+                  "size-12"
+                )}
+              />
             </TooltipTrigger>
             <TooltipContent>
               <p>Theme</p>
@@ -139,7 +150,7 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
       <ExpandableDock
         headerContent={(toggleExpand, isExpanded) => (
           <div className="flex items-center justify-between w-full">
-            <div 
+            <div
               className="flex items-center gap-3 cursor-pointer"
               onClick={toggleExpand}
             >
@@ -156,10 +167,12 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
               >
                 <HomeIcon className="size-5" />
               </Link>
-              <AnimatedThemeToggler className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "size-10"
-              )} />
+              <AnimatedThemeToggler
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" }),
+                  "size-10"
+                )}
+              />
             </div>
           </div>
         )}
@@ -167,12 +180,14 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
       >
         <div className="space-y-4">
           <div>
-            <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Social Links</h3>
+            <h3 className="text-sm font-semibold mb-3 text-muted-foreground">
+              Social Links
+            </h3>
             <div className="grid grid-cols-2 gap-2">
               {socialLinks.map(([name, social]: [string, any]) => {
                 const IconComponent = platformIcons[name.toLowerCase()];
                 if (!IconComponent) return null;
-                
+
                 return (
                   <Link
                     key={name}
@@ -189,11 +204,13 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
               })}
             </div>
           </div>
-          
+
           {/* Additional navbar items if any */}
           {portfolioData.navbar && portfolioData.navbar.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Quick Links</h3>
+              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">
+                Quick Links
+              </h3>
               <div className="space-y-1">
                 {portfolioData.navbar.map((item: any) => (
                   <Link

@@ -8,9 +8,7 @@ export default function Blogs() {
   return (
     <AnimatedSection className="mt-20 sm:mt-24 lg:mt-32">
       <div className="text-center mb-12 sm:mb-16">
-        <FaBook
-          className="text-foreground/40 w-15 h-15 mx-auto mb-4"
-        />
+        <FaBook className="text-foreground/40 w-15 h-15 mx-auto mb-4" />
         <p className=" font-medium text-base text-foreground/40 uppercase tracking-wider mb-2">
           Blog SECTION
         </p>
@@ -53,11 +51,7 @@ export default function Blogs() {
           </p>
           <div className="flex items-center gap-2 cursor-pointer text-foreground hover:text-primary">
             <span className=" font-medium text-base">
-              <a
-                href={`/p/blogs/${blogArticles[0]!.id}`}
-              >
-                Read More
-              </a>
+              <a href={`/p/blogs/${blogArticles[0]!.id}`}>Read More</a>
             </span>
           </div>
         </div>

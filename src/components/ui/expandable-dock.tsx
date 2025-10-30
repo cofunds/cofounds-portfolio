@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, ReactNode, useRef, useEffect } from "react";
+import { useState, type ReactNode, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +76,8 @@ const ExpandableDock = ({
         }}
         animate={{
           width:
-            animationStage === "collapsed" || animationStage === "widthCollapsing"
+            animationStage === "collapsed" ||
+            animationStage === "widthCollapsing"
               ? "min(90vw, 360px)"
               : "min(90vw, 720px)",
           height:
@@ -99,9 +100,7 @@ const ExpandableDock = ({
           className
         )}
       >
-        <div
-          className="flex items-center gap-4 px-4 sm:px-6 py-4 w-full h-[68px] whitespace-nowrap border-t border-border shrink-0"
-        >
+        <div className="flex items-center gap-4 px-4 sm:px-6 py-4 w-full h-[68px] whitespace-nowrap border-t border-border shrink-0">
           {headerContent(toggleExpand, isExpanded)}
         </div>
         <motion.div

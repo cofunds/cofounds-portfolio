@@ -21,8 +21,11 @@ export default function Services() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {services.map((service, index) => (
-          <div key={index} className="bg-linear-to-b overflow-hidden from-secondary to-secondary/20 shadow-[0px_2px_0px_0px_rgba(255,255,255,0.1)_inset] rounded-[20px] p-8 sm:p-10 relative">
-            <div className="absolute -right-5 -top-5 z-10 h-40 w-40 rounded-full bg-linear-to-b from-primary/10 to-card blur-md"></div>
+          <div
+            key={index}
+            className="bg-linear-to-b overflow-hidden from-secondary to-secondary/20 shadow-[0px_2px_0px_0px_rgba(255,255,255,0.1)_inset] rounded-[20px] p-8 sm:p-10 relative"
+          >
+            <div className="absolute -right-5 -top-5 z-10 h-40 w-40 rounded-full bg-linear-to-b from-primary/10 to-card blur-md" />
             <Image
               src={service.icon}
               alt={service.title}

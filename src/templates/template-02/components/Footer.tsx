@@ -8,10 +8,16 @@ interface FooterProps {
   profileImage?: string;
 }
 
-export default function Footer({ email, firstName, lastName, profileImage }: FooterProps) {
+export default function Footer({
+  email,
+  firstName,
+  lastName,
+  profileImage,
+}: FooterProps) {
   // Fallbacks
   const contactEmail = email || "example@gmail.com";
-  const fullName = firstName && lastName ? `${firstName} ${lastName}` : "Cofounds";
+  const fullName =
+    firstName && lastName ? `${firstName} ${lastName}` : "Cofounds";
 
   return (
     <section className="mt-20 sm:mt-24 lg:mt-32">
@@ -33,8 +39,8 @@ export default function Footer({ email, firstName, lastName, profileImage }: Foo
           )}
         </div>
         <div className="bg-secondary overflow-hidden relative rounded-t-[20px]  sm:p-12 max-w-4xl mx-auto">
-          <div className="absolute h-full w-16 top-0 inset -left-10 bg-orange-800/30 blur-2xl"></div>
-          <div className="absolute h-full w-16 top-0 inset -right-10 bg-orange-800/30 blur-2xl"></div>
+          <div className="absolute h-full w-16 top-0 inset -left-10 bg-orange-800/30 blur-2xl" />
+          <div className="absolute h-full w-16 top-0 inset -right-10 bg-orange-800/30 blur-2xl" />
 
           <Mail className="w-16 h-15 mx-auto mb-6" size={66} />
           <h2 className="font-medium text-4xl sm:text-5xl lg:text-[52px] text-foreground leading-tight mb-6">
