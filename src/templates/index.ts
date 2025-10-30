@@ -7,6 +7,7 @@
 
 import Template01 from "./template-01";
 import Template02 from "./template-02";
+import type { PortfolioData } from "@/components/portfolio-data-provider";
 
 /**
  * Template type defining the structure of a template entry
@@ -14,8 +15,8 @@ import Template02 from "./template-02";
 export type Template = {
   id: string;
   name: string;
-  component: React.ComponentType<any>;
-}
+  component: React.ComponentType<{ portfolioData: PortfolioData }>;
+};
 
 /**
  * Registry of all available templates

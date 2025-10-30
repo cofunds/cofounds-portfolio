@@ -8,14 +8,14 @@ type ExpandableItem = {
   question: string;
   answer?: string;
   isExpanded?: boolean;
-}
+};
 
 type ExpandableListProps = {
   items: ExpandableItem[];
   className?: string;
   allowMultiple?: boolean;
   defaultExpanded?: string[];
-}
+};
 
 const ExpandableList: React.FC<ExpandableListProps> = ({
   items,

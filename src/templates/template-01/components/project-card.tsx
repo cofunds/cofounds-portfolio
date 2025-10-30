@@ -26,7 +26,7 @@ type Props = {
     href: string;
   }[];
   className?: string;
-}
+};
 
 export function ProjectCard({
   title,
@@ -103,11 +103,11 @@ export function ProjectCard({
       <CardFooter className="px-2 pb-2">
         {links && links.length > 0 && (
           <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              <Link href={link?.href} key={idx} target="_blank">
+            {links?.map((projectLink, idx) => (
+              <Link href={projectLink?.href} key={idx} target="_blank">
                 <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
-                  {link.icon}
-                  {link.type}
+                  {projectLink.icon}
+                  {projectLink.type}
                 </Badge>
               </Link>
             ))}

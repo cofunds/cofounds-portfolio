@@ -7,7 +7,14 @@ import { ProjectCard } from "./components/project-card";
 import { ResumeCard } from "./components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import type { PortfolioData } from "@/components/portfolio-data-provider";
+import type {
+  PortfolioData,
+  TransformedWork,
+  TransformedEducation,
+  TransformedProject,
+  TransformedCertificate,
+  TransformedLink,
+} from "@/components/portfolio-data-provider";
 import { getLinkIcon } from "./components/portfolio-icons";
 import ResponsiveNavbar from "./components/responsive-navbar";
 import Link from "next/link";
@@ -103,7 +110,7 @@ export default function Template01({
             <BlurFade delay={BLUR_FADE_DELAY * 5}>
               <h2 className="text-xl font-bold">Work Experience</h2>
             </BlurFade>
-            {portfolioData.work.map((work: any, id: number) => (
+            {portfolioData.work.map((work: TransformedWork, id: number) => (
               <BlurFade
                 key={work.company}
                 delay={BLUR_FADE_DELAY * 6 + id * 0.05}
@@ -132,22 +139,24 @@ export default function Template01({
             <BlurFade delay={BLUR_FADE_DELAY * 7}>
               <h2 className="text-xl font-bold">Education</h2>
             </BlurFade>
-            {portfolioData.education.map((education: any, id: number) => (
-              <BlurFade
-                key={education.school}
-                delay={BLUR_FADE_DELAY * 8 + id * 0.05}
-              >
-                <ResumeCard
+            {portfolioData.education.map(
+              (education: TransformedEducation, id: number) => (
+                <BlurFade
                   key={education.school}
-                  href={education.href}
-                  logoUrl={education.logoUrl}
-                  altText={education.school}
-                  title={education.school}
-                  subtitle={education.degree}
-                  period={`${education.start} - ${education.end}`}
-                />
-              </BlurFade>
-            ))}
+                  delay={BLUR_FADE_DELAY * 8 + id * 0.05}
+                >
+                  <ResumeCard
+                    key={education.school}
+                    href={education.href}
+                    logoUrl={education.logoUrl}
+                    altText={education.school}
+                    title={education.school}
+                    subtitle={education.degree}
+                    period={`${education.start} - ${education.end}`}
+                  />
+                </BlurFade>
+              )
+            )}
           </div>
         </section>
       )}
@@ -160,7 +169,7 @@ export default function Template01({
               <h2 className="text-xl font-bold">Skills</h2>
             </BlurFade>
             <div className="flex flex-wrap gap-1">
-              {portfolioData.skills.map((skill: any, id: number) => (
+              {portfolioData.skills.map((skill: string, id: number) => (
                 <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
                   <Badge key={skill}>{skill}</Badge>
                 </BlurFade>
@@ -192,27 +201,29 @@ export default function Template01({
               </div>
             </BlurFade>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-              {portfolioData.projects.map((project: any, id: number) => (
-                <BlurFade
-                  key={project.title}
-                  delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-                >
-                  <ProjectCard
-                    href={project.href}
+              {portfolioData.projects.map(
+                (project: TransformedProject, id: number) => (
+                  <BlurFade
                     key={project.title}
-                    title={project.title}
-                    description={project.description}
-                    dates={project.dates}
-                    tags={project.technologies}
-                    image={project.image}
-                    video={project.video}
-                    links={project.links.map((link: any) => ({
-                      ...link,
-                      icon: getLinkIcon(link.linkTitle),
-                    }))}
-                  />
-                </BlurFade>
-              ))}
+                    delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+                  >
+                    <ProjectCard
+                      href={project.href}
+                      key={project.title}
+                      title={project.title}
+                      description={project.description}
+                      dates={project.dates}
+                      tags={project.technologies}
+                      image={project.image}
+                      video={project.video}
+                      links={project.links.map((link: TransformedLink) => ({
+                        ...link,
+                        icon: getLinkIcon(link.linkTitle),
+                      }))}
+                    />
+                  </BlurFade>
+                )
+              )}
             </div>
           </div>
         </section>
@@ -243,24 +254,26 @@ export default function Template01({
             </BlurFade>
             <BlurFade delay={BLUR_FADE_DELAY * 14}>
               <ul className="mb-4 ml-4 divide-y divide-dashed border-l">
-                {portfolioData.hackathons.map((project: any, id: number) => (
-                  <BlurFade
-                    key={project.title + project.dates}
-                    delay={BLUR_FADE_DELAY * 15 + id * 0.05}
-                  >
-                    <HackathonCard
-                      title={project.title}
-                      description={project.description}
-                      location={project.location}
-                      dates={project.dates}
-                      image={project.image}
-                      links={project.links.map((link: any) => ({
-                        ...link,
-                        icon: getLinkIcon(link.linkTitle),
-                      }))}
-                    />
-                  </BlurFade>
-                ))}
+                {portfolioData.hackathons.map(
+                  (project: TransformedCertificate, id: number) => (
+                    <BlurFade
+                      key={project.title + project.dates}
+                      delay={BLUR_FADE_DELAY * 15 + id * 0.05}
+                    >
+                      <HackathonCard
+                        title={project.title}
+                        description={project.description}
+                        location={project.location}
+                        dates={project.dates}
+                        image={project.image}
+                        links={project.links.map((link: TransformedLink) => ({
+                          ...link,
+                          icon: getLinkIcon(link.linkTitle),
+                        }))}
+                      />
+                    </BlurFade>
+                  )
+                )}
               </ul>
             </BlurFade>
           </div>

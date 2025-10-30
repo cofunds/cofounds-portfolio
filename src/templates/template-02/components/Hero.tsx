@@ -6,7 +6,7 @@ type HeroProps = {
   title?: string;
   imageSrc?: string;
   email?: string;
-}
+};
 
 export default function Hero({ title, imageSrc, email }: HeroProps) {
   const defaultTitle = "Where Product design meets perfection";

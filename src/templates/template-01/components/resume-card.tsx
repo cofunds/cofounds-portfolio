@@ -18,7 +18,7 @@ type ResumeCardProps = {
   badges?: readonly string[];
   period: string;
   description?: string;
-}
+};
 export const ResumeCard = ({
   logoUrl,
   altText,

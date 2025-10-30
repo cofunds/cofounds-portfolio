@@ -22,8 +22,10 @@ import {
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { HomeIcon, MenuIcon } from "lucide-react";
+import type { PortfolioData } from "@/components/portfolio-data-provider";
+import type { IconType } from "react-icons";
 
-const platformIcons: Record<string, any> = {
+const platformIcons: Record<string, IconType> = {
   instagram: FaInstagram,
   linkedin: FaLinkedin,
   github: FaGithub,
@@ -36,12 +38,21 @@ const platformIcons: Record<string, any> = {
 };
 
 type NavbarProps = {
-  portfolioData?: any;
+  portfolioData: PortfolioData;
 };
 
 export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
+  type SocialEntry = {
+    name: string;
+    url: string;
+    navbar: boolean;
+  };
+
   const socialLinks = Object.entries(portfolioData.contact.social || {}).filter(
-    ([_, social]: [string, any]) => social?.navbar && social?.url
+    ([_, social]) => {
+      const s = social as SocialEntry;
+      return s?.navbar && s?.url;
+    }
   );
 
   // Desktop Dock Component
@@ -72,7 +83,7 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
         {/* Additional navbar items */}
         {portfolioData.navbar &&
           portfolioData.navbar.length > 0 &&
-          portfolioData.navbar.map((item: any) => (
+          portfolioData.navbar.map((item) => (
             <DockIcon key={item.href}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -83,11 +94,11 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
                       "size-12"
                     )}
                   >
-                    <item.icon className="size-4" />
+                    {item.icon && <item.icon className="size-4" />}
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{item.label}</p>
+                  <p>{item.name}</p>
                 </TooltipContent>
               </Tooltip>
             </DockIcon>
@@ -96,16 +107,19 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
         <Separator orientation="vertical" className="h-full" />
 
         {/* Social links */}
-        {socialLinks.map(([name, social]: [string, any]) => {
+        {socialLinks.map(([name, social]) => {
+          const s = social as SocialEntry;
           const IconComponent = platformIcons[name.toLowerCase()];
-          if (!IconComponent) return null;
+          if (!IconComponent) {
+            return null;
+          }
 
           return (
             <DockIcon key={name}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={social.url}
+                    href={s.url}
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "icon" }),
                       "size-12"
@@ -115,7 +129,7 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{social.name || name}</p>
+                  <p>{s.name || name}</p>
                 </TooltipContent>
               </Tooltip>
             </DockIcon>
@@ -148,15 +162,16 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
   const MobileDock = () => (
     <div className="md:hidden">
       <ExpandableDock
-        headerContent={(toggleExpand, isExpanded) => (
+        headerContent={(toggleExpand) => (
           <div className="flex items-center justify-between w-full">
-            <div
-              className="flex items-center gap-3 cursor-pointer"
+            <button
+              type="button"
+              className="flex items-center gap-3 cursor-pointer appearance-none border-0 bg-transparent p-0"
               onClick={toggleExpand}
             >
               <MenuIcon className="size-5" />
               <span className="text-sm font-medium">Navigation</span>
-            </div>
+            </button>
             <div className="flex items-center gap-2">
               <Link
                 href="/"
@@ -184,21 +199,24 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
               Social Links
             </h3>
             <div className="grid grid-cols-2 gap-2">
-              {socialLinks.map(([name, social]: [string, any]) => {
+              {socialLinks.map(([name, social]) => {
+                const s = social as SocialEntry;
                 const IconComponent = platformIcons[name.toLowerCase()];
-                if (!IconComponent) return null;
+                if (!IconComponent) {
+                  return null;
+                }
 
                 return (
                   <Link
                     key={name}
-                    href={social.url}
+                    href={s.url}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
                       "justify-start gap-3 h-12"
                     )}
                   >
                     <IconComponent className="size-4" />
-                    <span className="text-sm">{social.name || name}</span>
+                    <span className="text-sm">{s.name || name}</span>
                   </Link>
                 );
               })}
@@ -212,7 +230,7 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
                 Quick Links
               </h3>
               <div className="space-y-1">
-                {portfolioData.navbar.map((item: any) => (
+                {portfolioData.navbar.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -221,8 +239,8 @@ export default function ResponsiveNavbar({ portfolioData }: NavbarProps) {
                       "justify-start gap-3 h-10 w-full"
                     )}
                   >
-                    <item.icon className="size-4" />
-                    <span className="text-sm">{item.label}</span>
+                    {item.icon && <item.icon className="size-4" />}
+                    <span className="text-sm">{item.name}</span>
                   </Link>
                 ))}
               </div>

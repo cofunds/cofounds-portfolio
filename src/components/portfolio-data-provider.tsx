@@ -10,29 +10,29 @@ export type Link = {
   id: string;
   linkUrl: string;
   linkTitle: string;
-}
+};
 
 export type Skill = {
   id: string;
   name: string;
-}
+};
 
 export type UserSkill = {
   id: string;
   skillLevel: "beginner" | "intermediate" | "advanced";
   skill: Skill;
-}
+};
 
 export type ProjectLink = {
   id: string;
   linkUrl: string;
   linkTitle: string;
-}
+};
 
 export type ProjectSkill = {
   id: string;
   skill: Skill;
-}
+};
 
 // Project type
 export type Project = {
@@ -46,7 +46,7 @@ export type Project = {
   previewImageUrl: string | null;
   projectLinks: ProjectLink[];
   projectSkillset: ProjectSkill[];
-}
+};
 
 // Experience type
 export type Experience = {
@@ -57,7 +57,7 @@ export type Experience = {
   startedAt: string; // ISO date string
   endAt: string | null;
   logoURL: string | null;
-}
+};
 
 // Certificate type
 export type Certificate = {
@@ -71,13 +71,13 @@ export type Certificate = {
   logoURL: string | null;
   location: string | null;
   linkName: string | null;
-}
+};
 
 // Education type
 export type Degree = {
   id: string;
   name: string;
-}
+};
 
 export type Education = {
   id: string;
@@ -87,7 +87,7 @@ export type Education = {
   endAt: string;
   logoURL: string | null;
   degree: Degree;
-}
+};
 
 // ============ 🔹 Root API type 🔹 = ============
 
@@ -109,7 +109,7 @@ export type UserProfile = {
   certificates: Certificate[];
   education: Education[];
   template?: string; // Optional template ID from API
-}
+};
 
 // ============ 🔹 Transformed Portfolio Data 🔹 ============
 
@@ -139,7 +139,11 @@ export type PortfolioData = {
   locationLink: string;
 
   // Navigation
-  navbar: any[];
+  navbar: Array<{
+    name: string;
+    href: string;
+    icon?: React.ComponentType<{ className?: string }>;
+  }>;
 
   // Skills - Keep both formats for flexibility
   skills: string[]; // Simple string array for template-01
@@ -177,7 +181,7 @@ export type PortfolioData = {
 
   // Template Selection
   templateId?: string; // Template ID for multi-template support
-}
+};
 
 // Transformed types = for UI components
 export type TransformedWork = {
@@ -189,7 +193,7 @@ export type TransformedWork = {
   start: string;
   end: string | null;
   description: string;
-}
+};
 
 export type TransformedEducation = {
   school: string;
@@ -198,7 +202,7 @@ export type TransformedEducation = {
   logoUrl: string;
   start: string;
   end: string;
-}
+};
 
 export type TransformedProject = {
   title: string;
@@ -209,7 +213,7 @@ export type TransformedProject = {
   video: string;
   links: TransformedLink[];
   href: string;
-}
+};
 
 export type TransformedCertificate = {
   title: string;
@@ -218,19 +222,19 @@ export type TransformedCertificate = {
   dates: string;
   image: string;
   links: TransformedLink[];
-}
+};
 
 export type TransformedLink = {
   type: string;
   href: string;
-  linkTitle?: string;
-}
+  linkTitle?: string | null;
+};
 
 type PortfolioDataContextType = {
   portfolioData: PortfolioData | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
 const PortfolioDataContext = createContext<
   PortfolioDataContextType | undefined
@@ -251,13 +255,13 @@ type PortfolioDataProviderProps = {
   portfolioData: PortfolioData | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
 // Error Boundary for Portfolio components
 type ErrorBoundaryState = {
   hasError: boolean;
   error?: Error;
-}
+};
 
 class PortfolioErrorBoundary extends Component<
   { children: React.ReactNode; fallback?: React.ReactNode },

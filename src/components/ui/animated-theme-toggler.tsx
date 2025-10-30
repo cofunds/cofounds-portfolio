@@ -58,55 +58,54 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, Props>(
         return;
       }
 
-      // Check if browser supports view transitions
-      const supportsViewTransition = "startViewTransition" in document;
-
-      if (supportsViewTransition) {
-        try {
-          await document.startViewTransition(() => {
-            flushSync(() => {
-              const newTheme = !isDark;
-              setIsDark(newTheme);
-              document.documentElement.classList.toggle("dark");
-              localStorage.setItem("theme", newTheme ? "dark" : "light");
-            });
-          }).ready;
-
-          const { top, left, width, height } =
-            buttonElement.getBoundingClientRect();
-          const x = left + width / 2;
-          const y = top + height / 2;
-          const maxRadius = Math.hypot(
-            Math.max(left, window.innerWidth - left),
-            Math.max(top, window.innerHeight - top)
-          );
-
-          document.documentElement.animate(
-            {
-              clipPath: [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${maxRadius}px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration: 700,
-              easing: "ease-in-out",
-              pseudoElement: "::view-transition-new(root)",
-            }
-          );
-        } catch (error: unknown) {
-          console.log(error);
-          const newTheme = !isDark;
-          setIsDark(newTheme);
-          document.documentElement.classList.toggle("dark");
-          localStorage.setItem("theme", newTheme ? "dark" : "light");
-        }
-      } else {
-        // Fallback for browsers that don't support view transitions
+      // Simple theme toggle function
+      const applyThemeToggle = () => {
         const newTheme = !isDark;
         setIsDark(newTheme);
         document.documentElement.classList.toggle("dark");
         localStorage.setItem("theme", newTheme ? "dark" : "light");
+      };
+
+      // Check if browser supports view transitions
+      const supportsViewTransition = "startViewTransition" in document;
+
+      if (!supportsViewTransition) {
+        // Fallback for browsers that don't support view transitions
+        applyThemeToggle();
+        return;
+      }
+
+      // Apply view transition
+      try {
+        await document.startViewTransition(() => {
+          flushSync(applyThemeToggle);
+        }).ready;
+
+        const { top, left, width, height } =
+          buttonElement.getBoundingClientRect();
+        const x = left + width / 2;
+        const y = top + height / 2;
+        const maxRadius = Math.hypot(
+          Math.max(left, window.innerWidth - left),
+          Math.max(top, window.innerHeight - top)
+        );
+
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${maxRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 700,
+            easing: "ease-in-out",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        );
+      } catch (error: unknown) {
+        console.log(error);
+        applyThemeToggle();
       }
     }, [isDark, mounted, buttonElement]);
 

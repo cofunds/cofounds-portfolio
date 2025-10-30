@@ -22,8 +22,8 @@ export default async function Page() {
   }
 
   // Fetch portfolio data on server-side
-  let portfolioData = null;
-  let error = null;
+  let portfolioData: ReturnType<typeof transformUserData> | null = null;
+  let error: string | null = null;
 
   try {
     const response = await fetchPortfolio(username);

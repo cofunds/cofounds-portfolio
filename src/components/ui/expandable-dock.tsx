@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, type ReactNode, useRef, useEffect, useCallback } from "react";
+import {
+  useState,
+  type ReactNode,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -8,7 +14,7 @@ type ExpandableDockProps = {
   headerContent: (toggleExpand: () => void, isExpanded: boolean) => ReactNode;
   children: ReactNode;
   className?: string;
-}
+};
 
 const ExpandableDock = ({
   headerContent,

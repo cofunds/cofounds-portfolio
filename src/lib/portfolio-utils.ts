@@ -38,7 +38,7 @@ export const fetchPortfolio = async (username: string) => {
     }
 
     const responseText = await portfolioData.text();
-    let jsonRes;
+    let jsonRes: { data?: UserProfile } | null = null;
 
     try {
       jsonRes = JSON.parse(responseText);
@@ -51,7 +51,7 @@ export const fetchPortfolio = async (username: string) => {
       };
     }
 
-    if (jsonRes && jsonRes.data) {
+    if (jsonRes?.data) {
       return {
         success: true,
         message: "Portfolio Fetched successfully!",
@@ -75,219 +75,281 @@ export const fetchPortfolio = async (username: string) => {
   }
 };
 
-export const transformUserData = (userData: UserProfile) => {
-  try {
-    const username = userData.userName;
-    const name =
-      `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
-    const initials =
-      `${userData.firstName?.[0] || ""}${userData.lastName?.[0] || ""}`.toUpperCase();
-    const avatarUrl = userData.profileImage || "";
-    const description = userData.headerText || "";
-    const summary = userData.description || "";
+// Helper functions for transformUserData
+function transformSkills(userData: UserProfile): string[] {
+  return userData.skillset?.map((s) => s.skill?.name).filter(Boolean) || [];
+}
 
-    const skills =
-      userData.skillset?.map((s: any) => s.skill?.name).filter(Boolean) || [];
+function transformWork(userData: UserProfile) {
+  return (
+    userData.experience
+      ?.map((e) => ({
+        company: e.companyName || "",
+        title: e.title || "",
+        href: "",
+        logoUrl: e.logoURL || "",
+        badges: [],
+        start: e.startedAt
+          ? new Date(e.startedAt).getFullYear().toString()
+          : "",
+        end: e.endAt ? new Date(e.endAt).getFullYear().toString() : null,
+        description: e.description || "",
+      }))
+      .filter((w) => w.company) || []
+  );
+}
 
-    const work =
-      userData.experience
-        ?.map((e: any) => ({
-          company: e.companyName || "",
-          title: e.title || "",
-          href: "",
-          logoUrl: e.logoURL || "",
-          badges: [],
-          start: e.startedAt
-            ? new Date(e.startedAt).getFullYear().toString()
-            : "",
-          end: e.endAt ? new Date(e.endAt).getFullYear().toString() : null,
-          description: e.description || "",
-        }))
-        .filter((w: any) => w.company) || [];
+function transformEducation(userData: UserProfile) {
+  return (
+    userData.education
+      ?.map((e) => ({
+        school: e.eduFrom || "",
+        degree: e.degree?.name || "",
+        href: e.eduFromLink || "",
+        logoUrl: e.logoURL || "",
+        start: e.startedAt
+          ? new Date(e.startedAt).getFullYear().toString()
+          : "",
+        end: e.endAt ? new Date(e.endAt).getFullYear().toString() : "",
+      }))
+      .filter((edu) => edu.school) || []
+  );
+}
 
-    const education =
-      userData.education
-        ?.map((e: any) => ({
-          school: e.eduFrom || "",
-          degree: e.degree?.name || "",
-          href: e.eduFromLink || "",
-          logoUrl: e.logoURL || "",
-          start: e.startedAt
-            ? new Date(e.startedAt).getFullYear().toString()
-            : "",
-          end: e.endAt ? new Date(e.endAt).getFullYear().toString() : "",
-        }))
-        .filter((edu: any) => edu.school) || [];
+function transformProjects(userData: UserProfile) {
+  return (
+    userData.projects
+      ?.map((p) => {
+        const projectLinks =
+          p.projectLinks
+            ?.map((link) => ({
+              type: link.linkTitle || "Website",
+              href: link.linkUrl,
+              linkTitle: link.linkTitle,
+            }))
+            .filter((link) => link.href) || [];
 
-    const projects =
-      userData.projects
-        ?.map((p: any) => {
-          const projectLinks =
-            p.projectLinks
-              ?.map((link: any) => ({
-                type: link.linkTitle || "Website",
-                href: link.linkUrl,
-                linkTitle: link.linkTitle,
-              }))
-              .filter((link: any) => link.href) || [];
+        if (p.link) {
+          projectLinks.unshift({
+            type: "Website",
+            href: p.link,
+            linkTitle: "Website",
+          });
+        }
 
-          if (p.link) {
-            projectLinks.unshift({
-              type: "Website",
-              href: p.link,
-              linkTitle: "Website",
-            });
-          }
-
-          return {
-            title: p.title || "",
-            description: p.description || "",
-            dates: `${p.startedAt ? new Date(p.startedAt).getFullYear() : ""} - ${p.endAt ? new Date(p.endAt).getFullYear() : "Present"}`,
-            technologies:
-              p.projectSkillset
-                ?.map((ps: any) => ps.skill?.name)
-                .filter(Boolean) || [],
-            image: p.previewImageUrl || "",
-            video: "",
-            links: projectLinks,
-            href: p.link || "",
-          };
-        })
-        .filter((p: any) => p.title) || [];
-
-    const hackathons =
-      userData.certificates
-        ?.map((c: any) => {
-          const links = c.link
-            ? [
-                {
-                  type: c.linkName || "Open Link",
-                  href: c.link,
-                  linkTitle: c.linkName,
-                },
-              ]
-            : [];
-
-          return {
-            title: c.title || "",
-            description: c.description || "",
-            location: c.location || "",
-            dates: `${c.startedAt ? new Date(c.startedAt).getFullYear() : ""}${c.endAt ? ` - ${new Date(c.endAt).getFullYear()}` : ""}`,
-            image: c.logoURL || "",
-            links,
-          };
-        })
-        .filter((h: any) => h.title) || [];
-
-    const socialLinks = userData.links || [];
-    const contact = {
-      email: userData.email || "",
-      social: {} as any,
-    };
-
-    socialLinks.forEach((link: any) => {
-      if (link.linkTitle && link.linkUrl) {
-        const platform = link.linkTitle.toLowerCase();
-        contact.social[platform] = {
-          name: link.linkTitle,
-          url: link.linkUrl,
-          navbar: true,
+        return {
+          title: p.title || "",
+          description: p.description || "",
+          dates: `${p.startedAt ? new Date(p.startedAt).getFullYear() : ""} - ${p.endAt ? new Date(p.endAt).getFullYear() : "Present"}`,
+          technologies:
+            p.projectSkillset?.map((ps) => ps.skill?.name).filter(Boolean) ||
+            [],
+          image: p.previewImageUrl || "",
+          video: "",
+          links: projectLinks,
+          href: p.link || "",
         };
-      }
-    });
+      })
+      .filter((p) => p.title) || []
+  );
+}
 
-    const transformedData = {
-      // Basic Info
-      username,
-      name,
-      firstName: userData.firstName || "",
-      lastName: userData.lastName || "",
-      initials,
-      email: userData.email || "",
-      phone: userData.phone || "",
+function transformCertificates(userData: UserProfile) {
+  return (
+    userData.certificates
+      ?.map((c) => {
+        const links = c.link
+          ? [
+              {
+                type: c.linkName || "Open Link",
+                href: c.link,
+                linkTitle: c.linkName,
+              },
+            ]
+          : [];
 
-      // Profile Images
-      avatarUrl,
-      profileImage: userData.profileImage || "",
-      headerImage: userData.headerImage || "",
+        return {
+          title: c.title || "",
+          description: c.description || "",
+          location: c.location || "",
+          dates: `${c.startedAt ? new Date(c.startedAt).getFullYear() : ""}${c.endAt ? ` - ${new Date(c.endAt).getFullYear()}` : ""}`,
+          image: c.logoURL || "",
+          links,
+        };
+      })
+      .filter((h) => h.title) || []
+  );
+}
 
-      // Descriptions
-      description,
-      headerText: userData.headerText || "",
-      summary,
+function transformSocialLinks(userData: UserProfile) {
+  const socialLinks = userData.links || [];
+  const contact = {
+    email: userData.email || "",
+    social: {} as Record<
+      string,
+      { name: string; url: string; navbar: boolean }
+    >,
+  };
 
-      // Location (for template-01)
-      url: "",
-      location: "",
-      locationLink: "",
-
-      // Navigation
-      navbar: [],
-
-      // Skills - Both formats
-      skills, // Simple array
-      skillset: userData.skillset || [], // Full objects with skill levels
-
-      // Links/Social
-      links: userData.links || [], // Raw links for template-02
-      contact,
-
-      // Work Experience - Both formats
-      work, // Transformed
-      experience: userData.experience || [], // Raw
-
-      // Education - Both formats
-      education, // Transformed
-      educationRaw: userData.education || [], // Raw
-
-      // Projects - Both formats
-      projects, // Transformed
-      projectsRaw: userData.projects || [], // Raw
-
-      // Certificates
-      hackathons, // Transformed
-      certificates: userData.certificates || [], // Raw
-
-      // Template Selection
-      templateId: userData.template || "template-01",
-    };
-
-    return transformedData;
-  } catch (error) {
-    throw error;
+  for (const link of socialLinks) {
+    if (link.linkTitle && link.linkUrl) {
+      const platform = link.linkTitle.toLowerCase();
+      contact.social[platform] = {
+        name: link.linkTitle,
+        url: link.linkUrl,
+        navbar: true,
+      };
+    }
   }
+
+  return contact;
+}
+
+function buildTransformedData(
+  userData: UserProfile,
+  transformedParts: {
+    username: string;
+    name: string;
+    initials: string;
+    avatarUrl: string;
+    description: string;
+    summary: string;
+    skills: string[];
+    work: ReturnType<typeof transformWork>;
+    education: ReturnType<typeof transformEducation>;
+    projects: ReturnType<typeof transformProjects>;
+    hackathons: ReturnType<typeof transformCertificates>;
+    contact: ReturnType<typeof transformSocialLinks>;
+  }
+) {
+  return {
+    // Basic Info
+    username: transformedParts.username,
+    name: transformedParts.name,
+    firstName: userData.firstName || "",
+    lastName: userData.lastName || "",
+    initials: transformedParts.initials,
+    email: userData.email || "",
+    phone: userData.phone || "",
+
+    // Profile Images
+    avatarUrl: transformedParts.avatarUrl,
+    profileImage: userData.profileImage || "",
+    headerImage: userData.headerImage || "",
+
+    // Descriptions
+    description: transformedParts.description,
+    headerText: userData.headerText || "",
+    summary: transformedParts.summary,
+
+    // Location (for template-01)
+    url: "",
+    location: "",
+    locationLink: "",
+
+    // Navigation
+    navbar: [],
+
+    // Skills - Both formats
+    skills: transformedParts.skills,
+    skillset: userData.skillset || [],
+
+    // Links/Social
+    links: userData.links || [],
+    contact: transformedParts.contact,
+
+    // Work Experience - Both formats
+    work: transformedParts.work,
+    experience: userData.experience || [],
+
+    // Education - Both formats
+    education: transformedParts.education,
+    educationRaw: userData.education || [],
+
+    // Projects - Both formats
+    projects: transformedParts.projects,
+    projectsRaw: userData.projects || [],
+
+    // Certificates
+    hackathons: transformedParts.hackathons,
+    certificates: userData.certificates || [],
+
+    // Template Selection
+    templateId: userData.template || "template-01",
+  };
+}
+
+export const transformUserData = (userData: UserProfile) => {
+  const username = userData.userName;
+  const name = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
+  const initials =
+    `${userData.firstName?.[0] || ""}${userData.lastName?.[0] || ""}`.toUpperCase();
+  const avatarUrl = userData.profileImage || "";
+  const description = userData.headerText || "";
+  const summary = userData.description || "";
+
+  const transformedParts = {
+    username,
+    name,
+    initials,
+    avatarUrl,
+    description,
+    summary,
+    skills: transformSkills(userData),
+    work: transformWork(userData),
+    education: transformEducation(userData),
+    projects: transformProjects(userData),
+    hackathons: transformCertificates(userData),
+    contact: transformSocialLinks(userData),
+  };
+
+  return buildTransformedData(userData, transformedParts);
 };
+
+function checkSubdomainValidity(subdomain: string, domain: string): boolean {
+  if (domain !== "buildarclabs.in" && domain !== "cofounds.in") {
+    return false;
+  }
+
+  const reserved = ["www", "api", "admin", "app", "mail", "blog", "docs"];
+  return !reserved.includes(subdomain.toLowerCase());
+}
+
+function parseHostname(actualHost: string): {
+  username: string;
+  hasValidSubdomain: boolean;
+} {
+  const parts = actualHost.split(".");
+
+  // Handle subdomains like username.buildarclabs.in
+  if (parts.length >= 3) {
+    const subdomain = parts[0];
+    const domain = parts.slice(1).join(".");
+
+    if (checkSubdomainValidity(subdomain, domain)) {
+      return { username: subdomain, hasValidSubdomain: true };
+    }
+  }
+
+  // Handle localhost development
+  if (
+    parts.length >= 2 &&
+    (parts[1] === "localhost" || parts[1].includes("localhost"))
+  ) {
+    return { username: parts[0], hasValidSubdomain: true };
+  }
+
+  return { username: "", hasValidSubdomain: false };
+}
 
 export const extractUsername = (headersList: Headers) => {
   const host = headersList.get("host");
   const xForwardedHost = headersList.get("x-forwarded-host");
   const actualHost = xForwardedHost || host || "";
 
-  let username = "";
-  let hasValidSubdomain = false;
-
-  if (actualHost) {
-    const parts = actualHost.split(".");
-
-    if (parts.length >= 3) {
-      const subdomain = parts[0];
-      const domain = parts.slice(1).join(".");
-
-      if (domain === "buildarclabs.in" || domain === "cofounds.in") {
-        const reserved = ["www", "api", "admin", "app", "mail", "blog", "docs"];
-        if (!reserved.includes(subdomain.toLowerCase())) {
-          username = subdomain;
-          hasValidSubdomain = true;
-        }
-      }
-    } else if (
-      parts.length >= 2 &&
-      (parts[1] === "localhost" || parts[1].includes("localhost"))
-    ) {
-      username = parts[0];
-      hasValidSubdomain = true;
-    }
+  if (!actualHost) {
+    return { username: "", hasValidSubdomain: false };
   }
 
-  return { username, hasValidSubdomain };
+  return parseHostname(actualHost);
 };

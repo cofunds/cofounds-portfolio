@@ -6,7 +6,7 @@ type FooterProps = {
   firstName?: string;
   lastName?: string;
   profileImage?: string;
-}
+};
 
 export default function Footer({
   email,
