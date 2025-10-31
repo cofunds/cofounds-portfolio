@@ -1,40 +1,41 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, ErrorInfo, Component } from 'react';
+import type React from "react";
+import { createContext, useContext, type ErrorInfo, Component } from "react";
 
-// ============ 🔹 Atomic Interfaces 🔹 ============
+// ============ 🔹 Atomic types = 🔹 ============
 
-// Basic reusable interfaces
-export interface Link {
+// Basic reusable types =
+export type Link = {
   id: string;
   linkUrl: string;
   linkTitle: string;
-}
+};
 
-export interface Skill {
+export type Skill = {
   id: string;
   name: string;
-}
+};
 
-export interface UserSkill {
+export type UserSkill = {
   id: string;
   skillLevel: "beginner" | "intermediate" | "advanced";
   skill: Skill;
-}
+};
 
-export interface ProjectLink {
+export type ProjectLink = {
   id: string;
   linkUrl: string;
   linkTitle: string;
-}
+};
 
-export interface ProjectSkill {
+export type ProjectSkill = {
   id: string;
   skill: Skill;
-}
+};
 
-// Project interface
-export interface Project {
+// Project type
+export type Project = {
   id: string;
   title: string;
   description: string;
@@ -45,10 +46,10 @@ export interface Project {
   previewImageUrl: string | null;
   projectLinks: ProjectLink[];
   projectSkillset: ProjectSkill[];
-}
+};
 
-// Experience interface
-export interface Experience {
+// Experience type
+export type Experience = {
   id: string;
   title: string;
   companyName: string;
@@ -56,10 +57,10 @@ export interface Experience {
   startedAt: string; // ISO date string
   endAt: string | null;
   logoURL: string | null;
-}
+};
 
-// Certificate interface
-export interface Certificate {
+// Certificate type
+export type Certificate = {
   id: string;
   title: string;
   description: string;
@@ -70,15 +71,15 @@ export interface Certificate {
   logoURL: string | null;
   location: string | null;
   linkName: string | null;
-}
+};
 
-// Education interface
-export interface Degree {
+// Education type
+export type Degree = {
   id: string;
   name: string;
-}
+};
 
-export interface Education {
+export type Education = {
   id: string;
   eduFrom: string;
   eduFromLink: string;
@@ -86,11 +87,11 @@ export interface Education {
   endAt: string;
   logoURL: string | null;
   degree: Degree;
-}
+};
 
-// ============ 🔹 Root API Interface 🔹 ============
+// ============ 🔹 Root API type 🔹 = ============
 
-export interface UserProfile {
+export type UserProfile = {
   id: string;
   userName: string;
   firstName: string;
@@ -107,38 +108,83 @@ export interface UserProfile {
   links: Link[];
   certificates: Certificate[];
   education: Education[];
-}
+  template?: string; // Optional template ID from API
+};
 
 // ============ 🔹 Transformed Portfolio Data 🔹 ============
 
-export interface PortfolioData {
+export type PortfolioData = {
+  // Basic Info
   username: string;
   name: string;
+  firstName: string;
+  lastName: string;
   initials: string;
+  email: string;
+  phone: string;
+
+  // Profile Images
+  avatarUrl: string;
+  profileImage: string;
+  headerImage: string;
+
+  // Descriptions
+  description: string;
+  headerText: string;
+  summary: string;
+
+  // Location (for template-01)
   url: string;
   location: string;
   locationLink: string;
-  avatarUrl: string;
-  description: string;
-  summary: string;
-  navbar: any[];
-  skills: string[];
-  work: TransformedWork[];
-  education: TransformedEducation[];
-  projects: TransformedProject[];
-  hackathons: TransformedCertificate[];
+
+  // Navigation
+  navbar: Array<{
+    name: string;
+    href: string;
+    icon?: React.ComponentType<{ className?: string }>;
+  }>;
+
+  // Skills - Keep both formats for flexibility
+  skills: string[]; // Simple string array for template-01
+  skillset: UserSkill[]; // Full skill objects with levels for template-02
+
+  // Links/Social
+  links: Link[]; // Raw links array for template-02
   contact: {
     email?: string;
-    social: Record<string, {
-      name: string;
-      url: string;
-      navbar: boolean;
-    }>;
+    social: Record<
+      string,
+      {
+        name: string;
+        url: string;
+        navbar: boolean;
+      }
+    >;
   };
-}
 
-// Transformed interfaces for UI components
-export interface TransformedWork {
+  // Work Experience - Keep both formats
+  work: TransformedWork[]; // Transformed for template-01
+  experience: Experience[]; // Raw for template-02
+
+  // Education
+  education: TransformedEducation[]; // Transformed for template-01
+  educationRaw: Education[]; // Raw for template-02
+
+  // Projects - Keep both formats
+  projects: TransformedProject[]; // Transformed for template-01
+  projectsRaw: Project[]; // Raw for template-02
+
+  // Certificates/Hackathons
+  hackathons: TransformedCertificate[]; // Transformed for template-01
+  certificates: Certificate[]; // Raw for template-02
+
+  // Template Selection
+  templateId?: string; // Template ID for multi-template support
+};
+
+// Transformed types = for UI components
+export type TransformedWork = {
   company: string;
   title: string;
   href: string;
@@ -147,18 +193,18 @@ export interface TransformedWork {
   start: string;
   end: string | null;
   description: string;
-}
+};
 
-export interface TransformedEducation {
+export type TransformedEducation = {
   school: string;
   degree: string;
   href: string;
   logoUrl: string;
   start: string;
   end: string;
-}
+};
 
-export interface TransformedProject {
+export type TransformedProject = {
   title: string;
   description: string;
   dates: string;
@@ -167,57 +213,64 @@ export interface TransformedProject {
   video: string;
   links: TransformedLink[];
   href: string;
-}
+};
 
-export interface TransformedCertificate {
+export type TransformedCertificate = {
   title: string;
   description: string;
   location: string;
   dates: string;
   image: string;
   links: TransformedLink[];
-}
+};
 
-export interface TransformedLink {
+export type TransformedLink = {
   type: string;
   href: string;
-  linkTitle?: string;
-}
+  linkTitle?: string | null;
+};
 
-interface PortfolioDataContextType {
+type PortfolioDataContextType = {
   portfolioData: PortfolioData | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
-const PortfolioDataContext = createContext<PortfolioDataContextType | undefined>(undefined);
+const PortfolioDataContext = createContext<
+  PortfolioDataContextType | undefined
+>(undefined);
 
 export const usePortfolioData = () => {
   const context = useContext(PortfolioDataContext);
   if (context === undefined) {
-    throw new Error('usePortfolioData must be used within a PortfolioDataProvider');
+    throw new Error(
+      "usePortfolioData must be used within a PortfolioDataProvider"
+    );
   }
   return context;
 };
 
-interface PortfolioDataProviderProps {
+type PortfolioDataProviderProps = {
   children: React.ReactNode;
   portfolioData: PortfolioData | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
 // Error Boundary for Portfolio components
-interface ErrorBoundaryState {
+type ErrorBoundaryState = {
   hasError: boolean;
   error?: Error;
-}
+};
 
 class PortfolioErrorBoundary extends Component<
   { children: React.ReactNode; fallback?: React.ReactNode },
   ErrorBoundaryState
 > {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+  constructor(props: {
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+  }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -227,18 +280,25 @@ class PortfolioErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Portfolio Error Boundary caught an error:', error, errorInfo);
+    console.error(
+      "Portfolio Error Boundary caught an error:",
+      error,
+      errorInfo
+    );
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-          <h2 className="text-lg font-semibold mb-2">Something went wrong</h2>
-          <p className="text-muted-foreground">
-            There was an error displaying this section. Please refresh the page.
-          </p>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+            <h2 className="text-lg font-semibold mb-2">Something went wrong</h2>
+            <p className="text-muted-foreground">
+              There was an error displaying this section. Please refresh the
+              page.
+            </p>
+          </div>
+        )
       );
     }
 
@@ -251,12 +311,10 @@ export const PortfolioDataProvider: React.FC<PortfolioDataProviderProps> = ({
   portfolioData,
   isLoading,
   error,
-}) => {
-  return (
-    <PortfolioErrorBoundary>
-      <PortfolioDataContext.Provider value={{ portfolioData, isLoading, error }}>
-        {children}
-      </PortfolioDataContext.Provider>
-    </PortfolioErrorBoundary>
-  );
-};
+}) => (
+  <PortfolioErrorBoundary>
+    <PortfolioDataContext.Provider value={{ portfolioData, isLoading, error }}>
+      {children}
+    </PortfolioDataContext.Provider>
+  </PortfolioErrorBoundary>
+);

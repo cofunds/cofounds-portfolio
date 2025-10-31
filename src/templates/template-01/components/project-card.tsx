@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
-interface Props {
+type Props = {
   title: string;
   href?: string;
   description: string;
@@ -26,7 +26,7 @@ interface Props {
     href: string;
   }[];
   className?: string;
-}
+};
 
 export function ProjectCard({
   title,
@@ -43,7 +43,7 @@ export function ProjectCard({
   return (
     <Card
       className={
-        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full"
+        "flex bg-transparent flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full"
       }
     >
       <Link
@@ -69,22 +69,19 @@ export function ProjectCard({
             className="h-40 w-full overflow-hidden object-cover object-top"
           />
         )}
-        {!video && !image && (
-          <div className="h-40 w-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center">
-          </div>
+        {!(video || image) && (
+          <div className="h-40 w-full bg-linear-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center" />
         )}
       </Link>
       <CardHeader className="px-2">
         <div className="space-y-1">
           <CardTitle className="mt-1 text-base">{title}</CardTitle>
           <time className="font-sans text-xs">{dates}</time>
-                    <div className="hidden font-sans text-xs underline print:visible">
+          <div className="hidden font-sans text-xs underline print:visible">
             {link?.replace("https://", "").replace("www.", "").replace("/", "")}
           </div>
           <div className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
-            <Markdown>
-              {description}
-            </Markdown>
+            <Markdown>{description}</Markdown>
           </div>
         </div>
       </CardHeader>
@@ -106,11 +103,11 @@ export function ProjectCard({
       <CardFooter className="px-2 pb-2">
         {links && links.length > 0 && (
           <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              <Link href={link?.href} key={idx} target="_blank">
+            {links?.map((projectLink, idx) => (
+              <Link href={projectLink?.href} key={idx} target="_blank">
                 <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
-                  {link.icon}
-                  {link.type}
+                  {projectLink.icon}
+                  {projectLink.type}
                 </Badge>
               </Link>
             ))}

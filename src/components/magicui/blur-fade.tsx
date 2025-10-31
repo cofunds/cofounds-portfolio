@@ -1,10 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  type UseInViewOptions,
+  type Variants,
+} from "framer-motion";
 import { useRef } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
 
-interface BlurFadeProps {
+type BlurFadeProps = {
   children: React.ReactNode;
   className?: string;
   variant?: {
@@ -15,9 +21,9 @@ interface BlurFadeProps {
   delay?: number;
   yOffset?: number;
   inView?: boolean;
-  inViewMargin?: string;
+  inViewMargin?: UseInViewOptions["margin"];
   blur?: string;
-}
+};
 const BlurFade = ({
   children,
   className,
@@ -31,12 +37,15 @@ const BlurFade = ({
 }: BlurFadeProps) => {
   const ref = useRef(null);
   const hydrated = useHydrated();
-  const inViewResult = useInView(ref, { once: true, margin: inViewMargin as any });
+  const inViewResult = useInView(ref, {
+    once: true,
+    margin: inViewMargin,
+  });
   const isInView = !inView || inViewResult;
-  
+
   const defaultVariants: Variants = {
     hidden: { y: yOffset, opacity: 0, filter: `blur(${blur})` },
-    visible: { y: -yOffset, opacity: 1, filter: `blur(0px)` },
+    visible: { y: -yOffset, opacity: 1, filter: "blur(0px)" },
   };
   const combinedVariants = variant || defaultVariants;
 

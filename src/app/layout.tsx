@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   description: "Cofounds portfolio showcasing skills, projects, and experience",
   openGraph: {
     title: "Cofounds Portfolio",
-    description: "Cofounds portfolio showcasing skills, projects, and experience",
-    locale: "en_US",
+    description:
+      "Cofounds portfolio showcasing skills, projects, and experience",
     type: "website",
   },
   twitter: {
@@ -49,15 +49,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto sm:py-10 px-6",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="light">
-          <TooltipProvider delayDuration={0}>
-            {children}
-          </TooltipProvider>
+          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

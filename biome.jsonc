@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite/core"],
+  "css": {
+    "linter": {
+      "enabled": false
+    }
+  },
+  "formatter": {
+    "attributePosition": "auto"
+  },
+  "javascript": {
+    "formatter": {
+      "attributePosition": "auto"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedKeys": "off",
+        "useSortedProperties": "off",
+        "organizeImports": "off",
+        "useSortedAttributes": "off"
+      }
+    }
+  },
+  "linter": {
+    "rules": {
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "style": {
+        "noMagicNumbers": "off",
+        "useFilenamingConvention": "off"
+      },
+      "nursery": {
+        "useSortedClasses": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noConsole": "off"
+      }
+    }
+  }
+}

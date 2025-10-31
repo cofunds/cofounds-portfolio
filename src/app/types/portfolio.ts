@@ -1,5 +1,5 @@
 // Re-export types from the portfolio data provider for backward compatibility
-export type { 
+export type {
   UserProfile as UserData,
   Project,
   Experience,
@@ -16,5 +16,5 @@ export type {
   TransformedEducation,
   TransformedProject,
   TransformedCertificate,
-  TransformedLink
-} from '@/components/portfolio-data-provider';
+  TransformedLink,
+} from "@/components/portfolio-data-provider";

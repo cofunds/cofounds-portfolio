@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
-interface Props {
+type Props = {
   title: string;
   description: string;
   dates: string;
@@ -13,7 +13,7 @@ interface Props {
     type: string;
     href: string;
   }[];
-}
+};
 
 export function HackathonCard({
   title,
