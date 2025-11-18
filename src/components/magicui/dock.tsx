@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
@@ -21,48 +19,42 @@ export interface DockProps extends VariantProps<typeof dockVariants> {
 const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
-const dockVariants = cva(
-  "mx-auto w-max h-full p-2 flex items-end rounded-full border"
-);
+const dockVariants = cva("flex items-center justify-center gap-2");
 
-const Dock = React.forwardRef<HTMLDivElement, DockProps>(
-  (
-    {
-      className,
-      children,
-      magnification = DEFAULT_MAGNIFICATION,
-      distance = DEFAULT_DISTANCE,
-      ...props
-    },
-    ref
-  ) => {
-    const mousex = useMotionValue(Number.POSITIVE_INFINITY);
+const Dock = ({
+  className,
+  children,
+  magnification = DEFAULT_MAGNIFICATION,
+  distance = DEFAULT_DISTANCE,
+  ref,
+  ...props
+}: DockProps & { ref?: React.RefObject<HTMLDivElement | null> }) => {
+  const mousex = useMotionValue(Number.POSITIVE_INFINITY);
 
-    const renderChildren = () =>
-      React.Children.map(children, (child) => {
-        if (React.isValidElement<DockIconProps>(child)) {
-          return React.cloneElement(child, {
-            mousex,
-            magnification,
-            distance,
-          });
-        }
-        return child;
-      });
+  const renderChildren = () =>
+    React.Children.map(children, (child) => {
+      if (React.isValidElement<DockIconProps>(child)) {
+        return React.cloneElement(child, {
+          mousex,
+          magnification,
+          distance,
+        });
+      }
+      return child;
+    });
 
-    return (
-      <motion.div
-        ref={ref}
-        onMouseMove={(e) => mousex.set(e.pageX)}
-        onMouseLeave={() => mousex.set(Number.POSITIVE_INFINITY)}
-        {...props}
-        className={cn(dockVariants({ className }))}
-      >
-        {renderChildren()}
-      </motion.div>
-    );
-  }
-);
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={(e) => mousex.set(e.pageX)}
+      onMouseLeave={() => mousex.set(Number.POSITIVE_INFINITY)}
+      {...props}
+      className={cn(dockVariants({ className }))}
+    >
+      {renderChildren()}
+    </motion.div>
+  );
+};
 
 Dock.displayName = "Dock";
 
