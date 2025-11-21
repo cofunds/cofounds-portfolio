@@ -25,7 +25,7 @@ export default function ContactSection({
   useEffect(() => {
     console.log("ContactSection mounted", { isCalcomEnabled, calLink });
     if (isCalcomEnabled && calLink) {
-      (async function () {
+      (async () => {
         const cal = await getCalApi();
         cal("ui", {
           styles: { branding: { brandColor: "#000000" } },

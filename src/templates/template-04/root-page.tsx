@@ -36,10 +36,10 @@ function RootPage04() {
       >
         {/* Main content area */}
         <div className="relative">
-          {/* Vertical separators like itsmehi */}
-          <div className="absolute left-[60px] -top-20 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden pointer-events-none"></div>
+          {/* Side separators - full height */}
+          <div className="fixed left-0 top-0 bottom-0 w-[60px] border-r border-dotted border-[var(--border)] border-opacity-40 h-screen pointer-events-none" />
 
-          <div className="absolute right-[60px] -top-20 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden pointer-events-none"></div>
+          <div className="fixed right-0 top-0 bottom-0 w-[60px] border-l border-dotted border-[var(--border)] border-opacity-40 h-screen pointer-events-none" />
 
           <div className="px-[60px]">
             {/* Header - Full Width */}
@@ -56,7 +56,7 @@ function RootPage04() {
                 </div>
 
                 {/* Full width separator */}
-                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-12" />
+                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-8 -mt-10" />
 
                 {/* Projects section */}
                 <div
@@ -67,7 +67,7 @@ function RootPage04() {
                 </div>
 
                 {/* Full width separator */}
-                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-12" />
+                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-8 -mt-10" />
 
                 {/* Work section */}
                 <div id="work">
@@ -75,10 +75,10 @@ function RootPage04() {
                 </div>
 
                 {/* Full width separator */}
-                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-12" />
+                <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-8 -mt-7" />
 
                 {/* Skills section */}
-                <div id="skills">
+                <div id="skills" className="-mb-8">
                   <Skills skillset={portfolioData.skillset} />
                 </div>
               </div>
@@ -93,11 +93,14 @@ function RootPage04() {
               </div>
             </div>
 
-            {/* Full width separator */}
-            <div className="w-screen -ml-[60px] border-t border-[var(--border)] my-12" />
+            {/* Full width separator with vertical line */}
+            <div className="relative w-screen -ml-[60px] my-8 -mt-1">
+              <div className="border-t border-[var(--border)]" />
+              <div className="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--border)] -translate-x-1/2" />
+            </div>
 
             {/* Contact section */}
-            <div id="contact" className="flex justify-center w-full">
+            <div id="contact" className="flex justify-center w-full -mt-2">
               <div className="w-full max-w-3xl">
                 <ContactSection
                   profileImage={portfolioData.profileImage || undefined}

@@ -1,4 +1,3 @@
-import React from "react";
 import { ExternalLink, Github } from "lucide-react";
 
 interface ProjectLink {
@@ -16,28 +15,32 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
     return null;
   }
 
-  const liveLink = projectLinks.find(link => 
-    link.linkTitle?.toLowerCase().includes("live") || 
-    link.linkTitle?.toLowerCase().includes("demo") ||
-    link.linkTitle?.toLowerCase().includes("website")
+  const liveLink = projectLinks.find(
+    (link) =>
+      link.linkTitle?.toLowerCase().includes("live") ||
+      link.linkTitle?.toLowerCase().includes("demo") ||
+      link.linkTitle?.toLowerCase().includes("website")
   );
 
-  const githubLink = projectLinks.find(link => 
-    link.linkTitle?.toLowerCase().includes("github") || 
-    link.linkTitle?.toLowerCase().includes("repo")
+  const githubLink = projectLinks.find(
+    (link) =>
+      link.linkTitle?.toLowerCase().includes("github") ||
+      link.linkTitle?.toLowerCase().includes("repo")
   );
 
-  const otherLinks = projectLinks.filter(link => 
-    link !== liveLink && link !== githubLink
+  const otherLinks = projectLinks.filter(
+    (link) => link !== liveLink && link !== githubLink
   );
 
   return (
     <div className="space-y-6 max-w-fit">
       <div className="flex items-center gap-2">
-        <div className="w-1 h-6 bg-[var(--link)] rounded-full"></div>
-        <h3 className="text-xl font-bold text-[var(--foreground)]">Project Links</h3>
+        <div className="w-1 h-6 bg-[var(--link)] rounded-full" />
+        <h3 className="text-xl font-bold text-[var(--foreground)]">
+          Project Links
+        </h3>
       </div>
-      
+
       <div className="space-y-2">
         {liveLink && (
           <a
@@ -50,8 +53,12 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
               <ExternalLink className="w-5 h-5 text-[var(--link)]" />
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">{liveLink.linkTitle}</div>
-              <div className="text-sm text-[var(--muted-foreground)]">Live Demo</div>
+              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">
+                {liveLink.linkTitle}
+              </div>
+              <div className="text-sm text-[var(--muted-foreground)]">
+                Live Demo
+              </div>
             </div>
             <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--muted)] group-hover:bg-[var(--link)]/10 transition-colors">
               <ExternalLink className="w-4 h-4 text-[var(--muted-foreground)] group-hover:text-[var(--link)] transition-colors" />
@@ -70,8 +77,12 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
               <Github className="w-5 h-5 text-[var(--link)]" />
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">{githubLink.linkTitle}</div>
-              <div className="text-sm text-[var(--muted-foreground)]">Source Code</div>
+              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">
+                {githubLink.linkTitle}
+              </div>
+              <div className="text-sm text-[var(--muted-foreground)]">
+                Source Code
+              </div>
             </div>
             <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--muted)] group-hover:bg-[var(--link)]/10 transition-colors">
               <Github className="w-4 h-4 text-[var(--muted-foreground)] group-hover:text-[var(--link)] transition-colors" />
@@ -91,8 +102,12 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
               <ExternalLink className="w-5 h-5 text-[var(--link)]" />
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">{link.linkTitle}</div>
-              <div className="text-sm text-[var(--muted-foreground)] truncate">{link.linkUrl}</div>
+              <div className="font-semibold text-[var(--foreground)] group-hover:text-[var(--link)] transition-colors">
+                {link.linkTitle}
+              </div>
+              <div className="text-sm text-[var(--muted-foreground)] truncate">
+                {link.linkUrl}
+              </div>
             </div>
             <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--muted)] group-hover:bg-[var(--link)]/10 transition-colors">
               <ExternalLink className="w-4 h-4 text-[var(--muted-foreground)] group-hover:text-[var(--link)] transition-colors" />

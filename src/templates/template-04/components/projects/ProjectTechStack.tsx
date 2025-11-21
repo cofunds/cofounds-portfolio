@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ProjectSkill {
   id: string;
   skill: {
@@ -19,7 +17,9 @@ export function ProjectTechStack({ technologies }: ProjectTechStackProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-[var(--foreground)]">Technologies Used</h3>
+      <h3 className="text-lg font-semibold text-[var(--foreground)]">
+        Technologies Used
+      </h3>
       <div className="flex flex-wrap gap-2">
         {technologies.map((tech) => (
           <span

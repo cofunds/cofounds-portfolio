@@ -1,5 +1,4 @@
 import { usePortfolio } from "@/context/PortfolioContext";
-import ProjectsPage03 from "@/templates/template-03/projects-page";
 import ProjectsPage04 from "@/templates/template-04/projects-page";
 
 function ProjectsPage() {

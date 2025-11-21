@@ -4,7 +4,6 @@ import { ProjectLinks } from "./ProjectLinks";
 import { ProjectTechStack } from "./ProjectTechStack";
 import { ProjectMeta } from "./ProjectMeta";
 
-
 interface ProjectLink {
   id: string;
   linkTitle: string;
@@ -39,8 +38,11 @@ interface ProjectDetailsCardProps {
 }
 
 // Error boundary component to catch errors in the component tree
-class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
-  constructor(props: {children: React.ReactNode}) {
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -50,7 +52,7 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasErr
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error in ProjectDetailsCard:', error, errorInfo);
+    console.error("Error in ProjectDetailsCard:", error, errorInfo);
   }
 
   render() {
@@ -85,47 +87,49 @@ export function ProjectDetailsCard({
   return (
     <ErrorBoundary>
       <div className="space-y-8">
-      {/* Project Header */}
-      <div className="space-y-4">
-        {project.previewImageUrl && (
-          <div className="rounded-xl overflow-hidden border border-[var(--border)]">
-            <img
-              src={project.previewImageUrl}
-              alt={project.title}
-              className="w-full h-auto object-cover"
-            />
-          </div>
-        )}
-        
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-[var(--foreground)]">{project.title}</h1>
-          <div className="flex items-center gap-4 text-[var(--muted-foreground)]">
-            {project.status && (
-              <span className="font-medium">{project.status}</span>
-            )}
-            {project.startedAt && (
-              <span>{new Date(project.startedAt).getFullYear()}</span>
-            )}
+        {/* Project Header */}
+        <div className="space-y-4">
+          {project.previewImageUrl && (
+            <div className="rounded-xl overflow-hidden border border-[var(--border)]">
+              <img
+                src={project.previewImageUrl}
+                alt={project.title}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold text-[var(--foreground)]">
+              {project.title}
+            </h1>
+            <div className="flex items-center gap-4 text-[var(--muted-foreground)]">
+              {project.status && (
+                <span className="font-medium">{project.status}</span>
+              )}
+              {project.startedAt && (
+                <span>{new Date(project.startedAt).getFullYear()}</span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Project Meta */}
-      <ProjectMeta
-        timeline={project.timeline}
-        role={project.role}
-        team={project.team}
-        status={project.status}
-      />
+        {/* Project Meta */}
+        <ProjectMeta
+          timeline={project.timeline}
+          role={project.role}
+          team={project.team}
+          status={project.status}
+        />
 
-      {/* Description */}
-      <ProjectDescription description={project.description} />
+        {/* Description */}
+        <ProjectDescription description={project.description} />
 
-      {/* Links Section */}
-      <ProjectLinks projectLinks={projectLinks} />
+        {/* Links Section */}
+        <ProjectLinks projectLinks={projectLinks} />
 
-      {/* Tech Stack */}
-      <ProjectTechStack technologies={technologies} />
+        {/* Tech Stack */}
+        <ProjectTechStack technologies={technologies} />
 
         {/* Related Projects */}
         {relatedProjects && relatedProjects.length > 0 && (

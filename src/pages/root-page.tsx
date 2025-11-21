@@ -1,6 +1,5 @@
 import { usePortfolio } from "@/context/PortfolioContext";
-import RootPage03 from "@/templates/template-03/root-page";
-import RootPage04 from "@/templates/template-04/root-page"
+import RootPage04 from "@/templates/template-04/root-page";
 
 function RootPage() {
   const { getAllDetailsWithTemplate } = usePortfolio();
@@ -12,10 +11,9 @@ function RootPage() {
   switch (templateName) {
     // case "template-03":
     //   return <RootPage03 />;
-     case "template-04":
+    case "template-04":
       return <RootPage04 />;
 
-    
     default:
       return (
         <div className="flex items-center justify-center py-20 text-red-500 font-semibold">

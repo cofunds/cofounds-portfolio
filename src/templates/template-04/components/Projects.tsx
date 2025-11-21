@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Project } from "@/types/portfolio.types";
 
@@ -62,34 +63,43 @@ const ProjectItem: React.FC<ProjectProps> = ({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
               </svg>
             </button>
 
             {isHovered && (
-              <div className="absolute z-10 left-full ml-4 top-0 w-72 p-2 shadow-lg bg-[var(--tooltip)] border border-[var(--tooltip-border)] rounded text-sm text-[var(--tooltip-foreground)]">
-                <div className="w-full h-40 overflow-hidden rounded mb-2">
-                  {preview.endsWith(".mp4") ||
-                  preview.endsWith(".webm") ||
-                  preview.endsWith(".mov") ? (
-                    <video
-                      src={preview}
-                      autoPlay
-                      muted
-                      loop
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={preview}
-                      alt={`${title} preview`}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-                <p className="text-xs">{description}</p>
-                <div className="absolute top-3 -left-2 w-4 h-4 bg-[var(--tooltip)] border-l border-b border-[var(--tooltip-border)] transform rotate-45"></div>
+              <div className="absolute z-10 left-full ml-4 top-0 w-72 p-4 shadow-lg bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                {preview && preview !== "/default.png" && (
+                  <div className="w-full h-40 overflow-hidden rounded mb-2">
+                    {preview.endsWith(".mp4") ||
+                    preview.endsWith(".webm") ||
+                    preview.endsWith(".mov") ? (
+                      <video
+                        src={preview}
+                        autoPlay
+                        muted
+                        loop
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={preview}
+                        alt={`${title} preview`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // If image fails to load, hide the image container
+                          const container = e.currentTarget.parentElement;
+                          if (container) {
+                            container.style.display = "none";
+                          }
+                        }}
+                      />
+                    )}
+                  </div>
+                )}
+                <p className="text-xs text-gray-200">{description}</p>
+                <div className="absolute top-3 -left-2 w-4 h-4 bg-gray-900 border-l border-b border-gray-700 transform rotate-45" />
               </div>
             )}
           </span>
@@ -165,8 +175,8 @@ const Projects: React.FC<ProjectsProps> = ({ projects }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
             </svg>
           </button>
         )}

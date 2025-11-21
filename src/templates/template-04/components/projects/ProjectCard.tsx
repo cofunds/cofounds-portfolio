@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { Link } from "react-router-dom";
 import { ExternalLink, Github } from "lucide-react";
 
@@ -150,7 +150,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
 
           {/* Description */}
-          <p className="text-sm text-[var(--muted-foreground)] line-clamp-1">{truncatedDesc}</p>
+          <p className="text-sm text-[var(--muted-foreground)] line-clamp-1">
+            {truncatedDesc}
+          </p>
 
           {/* Skills/Technologies */}
           {skills.length > 0 ? (
@@ -196,7 +198,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       {/* Footer Section */}
       <div className="px-6 py-3  flex items-center justify-between ">
         {/* Status */}
-        <div className={`flex items-center gap-2 px-2 py-1 rounded-full border ${statusStyles.container}`}>
+        <div
+          className={`flex items-center gap-2 px-2 py-1 rounded-full border ${statusStyles.container}`}
+        >
           <div className={`w-2 h-2 rounded-full ${statusStyles.dot}`} />
           <span className={`text-xs font-medium ${statusStyles.text}`}>
             {projectStatus}

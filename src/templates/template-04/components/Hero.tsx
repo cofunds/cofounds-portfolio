@@ -59,7 +59,7 @@ const LinkWithTooltip: React.FC<LinkWithTooltipProps> = ({
             </div>
           )}
           <div className="space-y-1">{description}</div>
-          <span className="absolute -top-2 left-3 w-4 h-4 bg-[var(--tooltip)] border-t border-l border-[var(--tooltip-border)] transform rotate-45"></span>
+          <span className="absolute -top-2 left-3 w-4 h-4 bg-[var(--tooltip)] border-t border-l border-[var(--tooltip-border)] transform rotate-45" />
         </div>
       )}
     </span>
@@ -175,20 +175,28 @@ const Hero: React.FC<HeroProps> = ({ portfolioData }) => {
             : ""}
         </p>
 
-        <div className="mb-8">
-          <p className="text-sm text-[var(--muted-foreground)] mb-2">
-            find me around
-          </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {portfolioData.links?.map((link) => (
-              <SocialLink
-                key={link.id}
-                href={link.linkUrl || "#"}
-                label={link.linkTitle?.toLowerCase() || ""}
-              />
-            ))}
+        {portfolioData.links?.some((link) => link.linkUrl) && (
+          <div className="mb-8">
+            <p className="text-sm text-[var(--muted-foreground)] mb-2">
+              find me around
+            </p>
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {portfolioData.links
+                .filter((link) => link.linkUrl) // Only show links that have a URL
+                .map((link) => (
+                  <SocialLink
+                    key={link.id}
+                    href={link.linkUrl!}
+                    label={
+                      link.linkTitle?.toLowerCase() ||
+                      link.linkUrl?.split("/").pop()?.toLowerCase() ||
+                      "link"
+                    }
+                  />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

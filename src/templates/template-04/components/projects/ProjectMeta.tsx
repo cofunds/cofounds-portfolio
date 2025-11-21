@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ProjectMetaProps {
   timeline?: string;
   role?: string;
@@ -41,7 +39,7 @@ export function ProjectMeta({
   const statusStyles = getStatusStyles(status || "In Progress");
 
   // Return null if no data to display
-  if (!timeline && !role && !team && !status) {
+  if (!(timeline || role || team || status)) {
     return null;
   }
 
@@ -53,29 +51,29 @@ export function ProjectMeta({
           <p className="text-[var(--muted-foreground)]">{timeline}</p>
         </div>
       )}
-      
+
       {role && (
         <div className="flex items-center gap-2">
           <h4 className="font-semibold text-[var(--foreground)]">Role:</h4>
           <p className="text-[var(--muted-foreground)]">{role}</p>
         </div>
       )}
-      
+
       {team && (
         <div className="flex items-center gap-2">
           <h4 className="font-semibold text-[var(--foreground)]">Team:</h4>
           <p className="text-[var(--muted-foreground)]">{team}</p>
         </div>
       )}
-      
+
       {status && (
         <div className="flex items-center gap-2">
           <h4 className="font-semibold text-[var(--foreground)]">Status:</h4>
-          <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${statusStyles.container} inline-flex`}>
+          <div
+            className={`flex items-center gap-2 px-3 py-1 rounded-full border ${statusStyles.container} inline-flex`}
+          >
             <div className={`w-2 h-2 rounded-full ${statusStyles.dot}`} />
-            <span className="text-xs font-medium">
-              {status}
-            </span>
+            <span className="text-xs font-medium">{status}</span>
           </div>
         </div>
       )}

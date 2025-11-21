@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "./theme-provider";
@@ -75,7 +75,7 @@ function Header({ portfolioData }: HeaderProps) {
       <div className="flex justify-between items-center -mt-2bg-background w-full z-20 h-7">
         <div className="flex items-center">
           <div className="mb-6 ml-2 text-base text-[var(--primary)]">
-            {portfolioData.userName || portfolioData.firstName.toLowerCase()}
+            {`${portfolioData.firstName} ${portfolioData.lastName || ""}`.trim()}
           </div>
         </div>
 
@@ -164,7 +164,6 @@ function Header({ portfolioData }: HeaderProps) {
                 work
               </button>
             </li>
-           
           </ul>
         </div>
       )}
