@@ -53,10 +53,10 @@ function ProjectsPage04() {
         <div className="absolute left-8 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
         <div className="absolute right-8 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
 
-        <div className="px-[34px]">
+        <div className="px-[34px] pt-7">
           <Header portfolioData={portfolioData} />
 
-          <div className="max-w-6xl mx-auto px-5 py-20">
+          <div className="max-w-6xl mx-auto px-5 py-10">
             <BackButton to="/" className="mb-6" label="Back to Home" />
             <h1 className="text-4xl font-bold text-[var(--foreground)] mb-2">
               All Projects

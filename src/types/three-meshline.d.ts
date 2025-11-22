@@ -3,16 +3,16 @@ import { ReactThreeFiber } from "@react-three/fiber";
 
 declare global {
   namespace JSX {
-    interface IntrinsicElements {
+    type IntrinsicElements = {
       meshLineGeometry: any;
       meshLineMaterial: any;
-    }
+    };
   }
 }
 
 declare module "@react-three/fiber" {
-  interface ThreeElements {
+  type ThreeElements = {
     meshLineGeometry: any;
     meshLineMaterial: any;
-  }
+  };
 }

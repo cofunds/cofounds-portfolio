@@ -58,9 +58,8 @@ export default function Card({ portfolioData }: CardProps) {
         <pointLight position={[-10, -10, 5]} intensity={0.2} />
         <Physics interpolate gravity={[0, -30, 0]} timeStep={1 / 120}>
           <Band
-            name={`${portfolioData.firstName} ${
-              portfolioData.lastName || ""
-            }`.trim()}
+            name={`${portfolioData.firstName} ${portfolioData.lastName || ""
+              }`.trim()}
             title={
               portfolioData.headerText || portfolioData.title || "Professional"
             }
@@ -340,7 +339,7 @@ function Band({
             <group position={[0, -0.5, 0.02]}>
               <group position={[0, 0, 0]}>
                 <Text
-                  position={[0, 0.1, 0]} // Adjust Y position for padding
+                  position={[0, -0.1, 0]} // Adjust Y position for padding
                   fontSize={0.3}
                   color="white"
                   font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"

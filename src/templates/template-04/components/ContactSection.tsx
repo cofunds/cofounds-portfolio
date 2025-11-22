@@ -10,7 +10,7 @@ type ContactSectionProps = {
   preText?: string;
   linkText?: string;
   calLink?: string;
-  isCalcomEnabled?: boolean;
+  integrationsEnabled?: boolean;
 };
 
 export default function ContactSection({
@@ -18,13 +18,13 @@ export default function ContactSection({
   name,
   initials,
   calLink,
-  isCalcomEnabled = true,
+  integrationsEnabled = true,
   preText = "Hey, you scrolled this far, let's talk.",
   linkText = "Book a Free Call",
 }: ContactSectionProps) {
   useEffect(() => {
-    console.log("ContactSection mounted", { isCalcomEnabled, calLink });
-    if (isCalcomEnabled && calLink) {
+    console.log("ContactSection mounted", { integrationsEnabled, calLink });
+    if (integrationsEnabled && calLink) {
       (async () => {
         const cal = await getCalApi();
         cal("ui", {
@@ -34,10 +34,14 @@ export default function ContactSection({
         });
       })();
     }
-  }, [isCalcomEnabled, calLink]);
+  }, [calLink, integrationsEnabled]);
+
+  if (!integrationsEnabled) {
+    return null;
+  }
 
   return (
-    <section>
+    <section className="mb-1">
       <div className="py-8">
         <div className="flex w-full flex-col items-center gap-4 px-6">
           <p className="text-center text-base opacity-50 md:text-xl">
@@ -45,7 +49,7 @@ export default function ContactSection({
           </p>
 
           <div className="flex justify-center">
-            {isCalcomEnabled && calLink ? (
+            {integrationsEnabled && calLink ? (
               <button
                 type="button"
                 data-cal-link={calLink}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import type { GetUserPortfolioV3Response } from "@/types/portfolio.types";
@@ -74,9 +74,12 @@ function Header({ portfolioData }: HeaderProps) {
     <div>
       <div className="flex justify-between items-center -mt-2bg-background w-full z-20 h-7">
         <div className="flex items-center">
-          <div className="mb-6 ml-2 text-base text-[var(--primary)]">
+          <Link
+            to="/"
+            className="mb-6 ml-2 text-base text-[var(--primary)] hover:underline"
+          >
             {`${portfolioData.firstName} ${portfolioData.lastName || ""}`.trim()}
-          </div>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4 ml-auto">

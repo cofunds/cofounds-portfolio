@@ -5,7 +5,7 @@ import { usePortfolio } from "@/context/PortfolioContext";
 function ProjectPage() {
   const { getAllDetailsWithTemplate } = usePortfolio();
   const { data: portfolioData } = getAllDetailsWithTemplate();
-  
+
   const templateName = portfolioData?.template?.name;
 
   switch (templateName) {

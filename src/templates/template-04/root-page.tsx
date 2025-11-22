@@ -7,6 +7,7 @@ import Work from "./components/Work";
 import Skills from "./components/Skills";
 import ContactSection from "./components/ContactSection";
 import Card from "./components/Card";
+import Footer from "./components/Footer";
 
 function RootPage04() {
   const { getAllDetailsWithTemplate } = usePortfolio();
@@ -31,7 +32,7 @@ function RootPage04() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="dakshi-theme">
       <div
-        className="min-h-screen p-0 overflow-x-hidden"
+        className="min-h-screen flex flex-col p-0 overflow-x-hidden"
         style={{ fontFamily: "var(--font-sans, Arial, Helvetica, sans-serif)" }}
       >
         {/* Main content area */}
@@ -100,13 +101,12 @@ function RootPage04() {
             </div>
 
             {/* Contact section */}
-            <div id="contact" className="flex justify-center w-full -mt-2">
+            <div id="contact" className="flex justify-center w-full -mt-2 ">
               <div className="w-full max-w-3xl">
                 <ContactSection
                   profileImage={portfolioData.profileImage || undefined}
-                  name={`${portfolioData.firstName} ${
-                    portfolioData.lastName || ""
-                  }`}
+                  name={`${portfolioData.firstName} ${portfolioData.lastName || ""
+                    }`}
                   initials={
                     portfolioData.firstName[0] +
                     (portfolioData.lastName?.[0] || "")
@@ -125,8 +125,12 @@ function RootPage04() {
                   isCalcomEnabled={true}
                 />
               </div>
+
             </div>
           </div>
+        </div>
+        <div className="mt-auto">
+          <Footer />
         </div>
       </div>
     </ThemeProvider>
