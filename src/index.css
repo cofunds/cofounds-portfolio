@@ -158,7 +158,6 @@
     background: oklch(0.45 0 0);
   }
   .typography {
-    max-width: 65ch;
     color: var(--color-foreground);
   }
   .typography h1:not(.not-typography h1) {
