@@ -109,9 +109,8 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
                 {link.linkUrl}
               </div>
             </div>
-            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[var(--muted)] group-hover:bg-[var(--link)]/10 transition-colors">
-              <ExternalLink className="w-4 h-4 text-[var(--muted-foreground)] group-hover:text-[var(--link)] transition-colors" />
-            </div>
+         
+           
           </a>
         ))}
       </div>

@@ -48,16 +48,22 @@ function ProjectsPage04() {
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="dakshi-theme">
-      <div className="min-h-screen w-full bg-[var(--background)] relative overflow-hidden font-[family-name:var(--font-geist-sans)] mb-10">
+      <div className="min-h-screen w-full bg-[var(--background)] relative overflow-hidden font-[family-name:var(--font-geist-sans)]">
         {/* Vertical separators like itsmehi */}
-        <div className="absolute left-8 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
-        <div className="absolute right-8 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
+        <div className="absolute left-15 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
+        <div className="absolute right-15 top-0 bottom-0 border-l border-dotted border-[var(--border)] border-opacity-40 h-full overflow-hidden" />
 
         <div className="px-[34px] pt-7">
-          <Header portfolioData={portfolioData} />
+          <div className="px-8">
+            <Header portfolioData={portfolioData} />
+          </div>
 
-          <div className="max-w-6xl mx-auto px-5 py-10">
-            <BackButton to="/" className="mb-6" label="Back to Home" />
+          <div className="max-w-6xl mx-auto  py-10 ml-12">
+            <BackButton 
+              to="/" 
+              className="mb-6 px-4 py-2 rounded-lg backdrop-blur-xl bg-white/10 hover:bg-white/20 border border-white/10 shadow-lg transition-all duration-300" 
+              label="Back to Home" 
+            />
             <h1 className="text-4xl font-bold text-[var(--foreground)] mb-2">
               All Projects
             </h1>

@@ -27,7 +27,7 @@ const BackButton: React.FC<BackButtonProps> = ({
     <button
       type="button"
       onClick={handleClick}
-      className={`flex items-center text-[var(--link)] hover:underline ${className}`}
+      className={`flex items-center text-[var(--link)]  ${className}`}
     >
       <ArrowLeft className="w-4 h-4 mr-2" /> {label}
     </button>

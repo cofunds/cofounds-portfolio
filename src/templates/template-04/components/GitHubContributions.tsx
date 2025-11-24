@@ -1,5 +1,4 @@
 import GitHubCalendar from "react-github-calendar";
-import { FaGithub } from "react-icons/fa";
 
 type GitHubContributionsProps = {
   githubUsername: string | null;
@@ -40,7 +39,7 @@ export default function GitHubContributions({
   })();
 
   return (
-    <div className="mb-58">
+    <div className="mb-38">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
