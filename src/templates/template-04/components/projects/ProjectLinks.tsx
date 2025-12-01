@@ -37,9 +37,7 @@ export function ProjectLinks({ projectLinks }: ProjectLinksProps) {
     <div className="space-y-6 max-w-fit">
       <div className="flex items-center gap-2">
         <div className="w-1 h-6 bg-(--link) rounded-full" />
-        <h3 className="text-xl font-bold text-foreground">
-          Project Links
-        </h3>
+        <h3 className="text-xl font-bold text-foreground">Project Links</h3>
       </div>
 
       <div className="space-y-2">

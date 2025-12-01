@@ -53,9 +53,7 @@ export function ProjectMeta({
       <div className="sm:hidden grid grid-cols-2 gap-4">
         {timeline && (
           <div className="flex flex-col gap-1">
-            <h4 className="font-semibold text-foreground">
-              Timeline:
-            </h4>
+            <h4 className="font-semibold text-foreground">Timeline:</h4>
             <p className="text-muted-foreground">{timeline}</p>
           </div>
         )}
@@ -91,9 +89,7 @@ export function ProjectMeta({
       <div className="hidden sm:flex flex-wrap items-center gap-8">
         {timeline && (
           <div className="flex items-center gap-2">
-            <h4 className="font-semibold text-foreground">
-              Timeline:
-            </h4>
+            <h4 className="font-semibold text-foreground">Timeline:</h4>
             <p className="text-muted-foreground">{timeline}</p>
           </div>
         )}

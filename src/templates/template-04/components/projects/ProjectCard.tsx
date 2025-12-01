@@ -61,17 +61,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   // Get valid links
   const validLinks = (project.projectLinks || []).filter(
-    (link: { linkUrl: string; }) => link?.linkUrl && link.linkUrl.trim() !== ""
+    (link: { linkUrl: string }) => link?.linkUrl && link.linkUrl.trim() !== ""
   );
 
   const liveLink =
-    validLinks.find((link: { linkTitle: string; }) =>
+    validLinks.find((link: { linkTitle: string }) =>
       ["website", "live", "demo"].some((w) =>
         link.linkTitle?.toLowerCase().includes(w)
       )
     ) || validLinks[0];
 
-  const githubLink = validLinks.find((link: { linkTitle: string; }) =>
+  const githubLink = validLinks.find((link: { linkTitle: string }) =>
     link.linkTitle?.toLowerCase().includes("github")
   );
 

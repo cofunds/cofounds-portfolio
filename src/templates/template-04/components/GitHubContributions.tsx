@@ -24,7 +24,7 @@ function cleanAndValidateUsername(githubUsername: string | null): {
         const parsed = new URL(url);
 
         const pathSegments = parsed.pathname.split("/").filter(Boolean);
-        
+
         cleanedName =
           pathSegments[0] ||
           parsed.hostname.replace("www.", "").replace("github.com", "");
@@ -34,7 +34,6 @@ function cleanAndValidateUsername(githubUsername: string | null): {
       cleanedName = "";
     }
   }
-
 
   isValid = isValid && Boolean(cleanedName);
 

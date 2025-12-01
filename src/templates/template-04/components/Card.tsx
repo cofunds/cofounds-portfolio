@@ -1,6 +1,14 @@
 "use client";
 
-import * as THREE from "three";
+import {
+  AlwaysStencilFunc,
+  CatmullRomCurve3,
+  FrontSide,
+  LinearFilter,
+  ReplaceStencilOp,
+  SRGBColorSpace,
+  Vector3,
+} from "three";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useThree, useFrame } from "@react-three/fiber";
@@ -25,7 +33,7 @@ import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 extend({ MeshLineGeometry, MeshLineMaterial });
 
 interface ExtendedRigidBody extends RapierRigidBody {
-  lerped?: THREE.Vector3;
+  lerped?: Vector3;
 }
 
 type CardProps = {
@@ -112,10 +120,10 @@ function Band({
   const j3 = useRef<ExtendedRigidBody>(null);
   const card = useRef<RapierRigidBody>(null);
 
-  const vec = new THREE.Vector3(),
-    ang = new THREE.Vector3(),
-    rot = new THREE.Vector3(),
-    dir = new THREE.Vector3(); // prettier-ignore
+  const vec = new Vector3(),
+    ang = new Vector3(),
+    rot = new Vector3(),
+    dir = new Vector3();
   const segmentProps = {
     type: "dynamic",
     canSleep: true,
@@ -127,23 +135,23 @@ function Band({
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(
     () =>
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
+      new CatmullRomCurve3([
+        new Vector3(),
+        new Vector3(),
+        new Vector3(),
+        new Vector3(),
       ])
   );
-  const [dragged, drag] = useState<THREE.Vector3 | false>(false);
+  const [dragged, drag] = useState<Vector3 | false>(false);
   const [hovered, hover] = useState(false);
 
   // Use the provided profile picture URL with offset and repeat for proper aspect ratio
   const profileTexture = useTexture(profilePicUrl, (texture) => {
     texture.offset.set(0, 0);
     texture.repeat.set(1, 1);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.minFilter = LinearFilter;
+    texture.magFilter = LinearFilter;
+    texture.colorSpace = SRGBColorSpace;
   });
 
   const fixedRef = fixed as unknown as React.RefObject<RapierRigidBody>;
@@ -195,7 +203,7 @@ function Band({
         const rigidBody = ref.current as ExtendedRigidBody;
         if (rigidBody) {
           if (!rigidBody.lerped) {
-            rigidBody.lerped = new THREE.Vector3().copy(
+            rigidBody.lerped = new Vector3().copy(
               (rigidBody as any).translation()
             );
           }
@@ -281,7 +289,7 @@ function Band({
               target.setPointerCapture(e.pointerId);
               if (card.current) {
                 drag(
-                  new THREE.Vector3()
+                  new Vector3()
                     .copy(e.point)
                     .sub(vec.copy(card.current.translation()))
                 );
@@ -321,17 +329,17 @@ function Band({
                   alphaTest={0.1}
                   toneMapped={true}
                   color="#ffffff"
-                  side={THREE.FrontSide}
+                  side={FrontSide}
                   stencilWrite={true}
                   stencilRef={1}
-                  stencilFunc={THREE.AlwaysStencilFunc}
-                  stencilZPass={THREE.ReplaceStencilOp}
+                  stencilFunc={AlwaysStencilFunc}
+                  stencilZPass={ReplaceStencilOp}
                 />
               </mesh>
               {/* Thinner Border - Using a ring geometry */}
               <mesh>
                 <ringGeometry args={[0.82, 0.83, 64]} />
-                <meshBasicMaterial color="#ffffff" side={THREE.FrontSide} />
+                <meshBasicMaterial color="#ffffff" side={FrontSide} />
               </mesh>
             </group>
 
@@ -357,7 +365,6 @@ function Band({
                 font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
                 maxWidth={1.6}
                 overflowWrap="normal"
-                textOverflow="ellipsis"
                 whiteSpace="nowrap"
               >
                 {title && title.length > 20
