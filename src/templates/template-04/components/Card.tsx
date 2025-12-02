@@ -48,7 +48,7 @@ type CardProps = {
 
 export default function Card({ portfolioData }: CardProps) {
   return (
-    <div className="w-full h-screen relative">
+    <div className="z-200 w-full h-screen relative">
       <Canvas
         camera={{ position: [0, 1, 18], fov: 22 }}
         className="w-full h-full bg-transparent mb-72"
@@ -65,9 +65,8 @@ export default function Card({ portfolioData }: CardProps) {
         <pointLight position={[-10, -10, 5]} intensity={0.2} />
         <Physics interpolate gravity={[0, -30, 0]} timeStep={1 / 120}>
           <Band
-            name={`${portfolioData.firstName} ${
-              portfolioData.lastName || ""
-            }`.trim()}
+            name={`${portfolioData.firstName} ${portfolioData.lastName || ""
+              }`.trim()}
             title={
               portfolioData.headerText || portfolioData.title || "Professional"
             }

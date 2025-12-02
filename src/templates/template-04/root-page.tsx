@@ -106,8 +106,8 @@ function RootPage04() {
 
               {/* Right Column - Sticky Card and GitHub Contributions */}
               <div className="hidden lg:flex w-1/2 flex-col relative">
-                <div className="sticky top-0 h-screen w-full pointer-events-none">
-                  <div className="w-full max-w-md mx-auto px-4  space-y-8 pointer-events-auto">
+                <div className="w-full pointer-events-none">
+                  <div className="w-full mx-auto pointer-events-auto">
                     <Card
                       portfolioData={{
                         firstName: portfolioData.firstName,
@@ -147,9 +147,8 @@ function RootPage04() {
               <div className="w-full max-w-3xl">
                 <ContactSection
                   profileImage={portfolioData.profileImage || undefined}
-                  name={`${portfolioData.firstName} ${
-                    portfolioData.lastName || ""
-                  }`}
+                  name={`${portfolioData.firstName} ${portfolioData.lastName || ""
+                    }`}
                   initials={
                     portfolioData.firstName[0] +
                     (portfolioData.lastName?.[0] || "")
