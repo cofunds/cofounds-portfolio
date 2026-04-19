@@ -1,6 +1,7 @@
+import { resolvePortfolioIdentifier } from "./portfolio_identifier";
+
 export function getUsername() {
-  const host = window.location.hostname;
-  return host.split(".")[0];
+  return resolvePortfolioIdentifier(window.location.hostname);
 }
 
 export async function getPortfolioData() {
